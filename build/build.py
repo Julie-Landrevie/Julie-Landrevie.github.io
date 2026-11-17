@@ -38,11 +38,27 @@ def num(v):
 n_projets = len(PROJETS) + len(AUTRES)
 n_tests = sum(TESTS.values())
 COMPTEURS = [
-    (str(n_projets), ("projets publiés, code ouvert", "published projects, open code")),
+    (str(n_projets), ("études détaillées, données et code ouverts", "detailed studies, open data and code")),
     (f"{n_tests // 10 * 10}+", ("tests unitaires sur quatre projets", "unit tests across four projects")),
     ("10 075", ("fichiers GPS de joueuses contrôlés", "GPS files from female players checked")),
     ("4", ("résultats nuls ou contre-intuitifs publiés", "null or counter-intuitive results published")),
 ]
+
+
+PANNEAU = ('<div class="panneau" aria-label="Panneau de codage">'
+           + t("Structure du panneau de codage", "Coding panel structure", "span", "panneau-titre")
+           + '<div class="p-ligne">' + t("Catégories", "Categories", "span", "p-lab")
+           + "".join(t(a, b, "span", "tag") for a, b in [("Tir", "Shot"), ("Passe", "Pass"), ("Dribble", "Dribble"), ("Tacle", "Tackle"), ("Interception", "Interception")])
+           + '</div><div class="p-ligne">' + t("Sous-critères", "Sub-criteria", "span", "p-lab")
+           + "".join(t(a, b, "span", "tag sub") for a, b in [("Zone du terrain", "Pitch zone"), ("Type de passe", "Pass type"), ("Résultat de l\'action", "Outcome")])
+           + '</div><div class="p-ligne">' + t("Plan d\'entraînement", "Training plan", "span", "p-lab")
+           + "".join(t(a, b, "span", "tag bloc") for a, b in [("Technique", "Technical"), ("Physique", "Physical"), ("Tactique", "Tactical"), ("Mental", "Mental")])
+           + "</div></div>")
+
+
+def visuel(f, cfr, cen):
+    return (f'<figure><a href="assets/{f}" target="_blank" rel="noopener"><img src="assets/{f}" alt="{esc(cfr)}" loading="lazy"></a>'
+            f'<figcaption>{t(esc(cfr), esc(cen))}</figcaption></figure>')
 
 
 def carte_projet(p):
@@ -52,10 +68,19 @@ def carte_projet(p):
     chips = "".join(t(esc(a), esc(b), "span", "chip") for a, b in zip(p["stack"], stack_en))
     chiffres = "".join(
         f'<div class="fig"><b>{num(v)}</b>{t(esc(d[0]), esc(d[1]), "span")}</div>' for v, d in p["chiffres"])
-    texte = t("".join(f"<p>{x}</p>" for x in p["texte"][0]), "".join(f"<p>{x}</p>" for x in p["texte"][1]), "div")
-    visuels = "".join(
-        f'<figure><img src="assets/{f}" alt="{esc(c[0])}" loading="lazy" width="1200">'
-        f'<figcaption>{t(esc(c[0]), esc(c[1]))}</figcaption></figure>' for f, c in p["visuels"])
+    corps = ""
+    for i, s in enumerate(p["sections"]):
+        corps += f'<section class="bloc"><h4>{tt(s["titre"])}</h4>'
+        corps += t("".join(f"<p>{x}</p>" for x in s["texte"][0]), "".join(f"<p>{x}</p>" for x in s["texte"][1]), "div")
+        if p.get("panneau") is not None and i == (p["panneau"] if isinstance(p["panneau"], int) and p["panneau"] is not True else 0):
+            corps += PANNEAU
+            if p.get("youtube"):
+                corps += (f'<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/{p["youtube"]}" title="Vidéo Dartfish" '
+                          'loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>')
+        if s["visuels"]:
+            cls = "galerie" + (" seule" if len(s["visuels"]) == 1 else "")
+            corps += f'<div class="{cls}">' + "".join(visuel(*v) for v in s["visuels"]) + "</div>"
+        corps += "</section>"
     demo = DEMOS.get(p.get("demo"), "")
     liens = "".join(f'<a href="{u}" target="_blank" rel="noopener">{t(esc(a), esc(b))}</a>' for a, b, u in p["liens"])
     return f'''
@@ -67,12 +92,11 @@ def carte_projet(p):
   </div>
   <div class="figs">{chiffres}</div>
   <details>
-    <summary>{t("Voir l'étude", "Read the study")}</summary>
+    <summary>{t("Lire l\'étude", "Read the study")}</summary>
     <div class="etude">
-      {texte}
+      {corps}
       {demo}
-      {visuels}
-      <div class="limites"><strong>{t("Ce que l'étude ne permet pas de conclure", "What this study cannot conclude")}</strong>{tt(p["limites"], "p")}</div>
+      <div class="limites"><strong>{t("Ce que l\'étude ne permet pas de conclure", "What this study cannot conclude")}</strong>{tt(p["limites"], "p")}</div>
     </div>
   </details>
   <div class="pied-projet"><div class="chips">{chips}</div><div class="liens">{liens}</div></div>
@@ -176,14 +200,15 @@ langues = "".join(f"<li>{tt(x)}</li>" for x in PARCOURS["langues"])
 
 page = (RACINE / "build" / "gabarit.html").read_text(encoding="utf-8")
 for cle, val in dict(ROLES=roles, PORTES=portes_html, COMPTEURS=compteurs, METHODE=methode, PROJETS=projets,
-                     AUTRES=autres, NULS=nuls, PREUVES=preuves, GLOSSAIRE=glossaire, EXP=exp, FORM=form,
+                     NULS=nuls, PREUVES=preuves, GLOSSAIRE=glossaire, EXP=exp, FORM=form,
                      OUTILS=outils, LANGUES=langues, EMAIL=PROFIL["email"], LINKEDIN=PROFIL["linkedin"],
                      GITHUB=PROFIL["github"], NPROJ=str(n_projets)).items():
     page = page.replace("{{" + cle + "}}", val)
 # Apostrophes typographiques dans le texte (pas dans les attributs ni le script).
-avant, script = page.split("<script>", 1)
-avant = re.sub(r">([^<]*)<", lambda m: ">" + m.group(1).replace("&#x27;", "’").replace("'", "’") + "<", avant)
-page = avant + "<script>" + script
+morceaux = re.split(r"(<script>.*?</script>)", page, flags=re.S)
+page = "".join(m if m.startswith("<script>") else
+               re.sub(r">([^<]*)<", lambda x: ">" + x.group(1).replace("&#x27;", "’").replace("'", "’") + "<", m)
+               for m in morceaux)
 assert "{{" not in page, page[page.index("{{"):page.index("{{") + 40]
 (RACINE / "index.html").write_text(page, encoding="utf-8")
 print("index.html :", len(page) // 1024, "Ko ;", n_projets, "projets ;", n_tests, "tests")

@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<script>try{if(localStorage.getItem("jl-theme")==="light")document.documentElement.setAttribute("data-theme","light")}catch(e){}</script>
 <title>Julie Landrevie — Data, performance et IA appliquées au football</title>
 <meta name="description" content="Portfolio de Julie Landrevie : suivi de charge en football féminin, seuils féminins, analyse vidéo, assistant IA évalué. Données vérifiées, indicateurs lisibles, limites assumées.">
 <meta property="og:title" content="Julie Landrevie — Data & performance football">
@@ -14,9 +16,15 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Lato:wght@400;700;900&display=swap">
 <style>
 :root{
-  --bg:#f6f1e7; --carte:#fbf8f2; --bord:#e4dccd; --encre:#1c1917; --encre2:#57534e; --estompe:#8a8580;
-  --teal:#0d8f84; --rouille:#cc4a12; --compare:#c9c0b1;
+  --bg:#13110f; --carte:#1c1916; --bord:#302a24; --encre:#f2ede4; --encre2:#b9b1a6; --estompe:#8a8379;
+  --teal:#2fb3a6; --rouille:#e8692f; --compare:#6f675d; --barre:rgba(19,17,15,.92); --ombre:rgba(0,0,0,.5);
   --titre:"DM Serif Display", Georgia, serif; --texte:"Lato", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --bg:#f6f1e7; --carte:#fbf8f2; --bord:#e4dccd; --encre:#1c1917; --encre2:#57534e; --estompe:#8a8580;
+  --teal:#0d8f84; --rouille:#cc4a12; --compare:#c9c0b1; --barre:rgba(246,241,231,.94); --ombre:rgba(28,25,23,.38);
+  color-scheme:light;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth; scroll-padding-top:72px}
@@ -34,7 +42,7 @@ section > .wrap > h2{font-size:clamp(30px,4.4vw,42px); margin-bottom:10px}
 .intro-section{color:var(--encre2); max-width:62ch; margin-bottom:28px}
 
 /* En-tête */
-.barre{position:sticky; top:0; z-index:20; background:rgba(246,241,231,.94); backdrop-filter:blur(6px); border-bottom:1px solid var(--bord)}
+.barre{position:sticky; top:0; z-index:20; background:var(--barre); backdrop-filter:blur(6px); border-bottom:1px solid var(--bord)}
 .barre .wrap{display:flex; align-items:center; gap:18px; height:60px}
 .mono{display:inline-grid; place-items:center; width:40px; height:32px; border:2px solid var(--teal); border-radius:7px; color:var(--teal); font:700 15px var(--texte); text-decoration:none; flex:none}
 .nav{display:flex; gap:18px; margin-left:auto; font-size:15px}
@@ -99,12 +107,30 @@ details summary{cursor:pointer; font-weight:700; color:var(--teal); list-style:n
 details summary::-webkit-details-marker{display:none}
 details summary::before{content:"+"; display:inline-grid; place-items:center; width:22px; height:22px; border:1.5px solid var(--teal); border-radius:50%; font-size:15px; line-height:1}
 details[open] summary::before{content:"−"}
-.etude{display:flex; flex-direction:column; gap:16px; margin-top:16px; max-width:76ch}
+.etude{display:flex; flex-direction:column; gap:28px; margin-top:18px}
 .etude p{color:var(--encre)}
 .etude [data-l] p + p{margin-top:12px}
 figure{margin:0; display:flex; flex-direction:column; gap:8px}
-figure img{width:100%; height:auto; border:1px solid var(--bord); border-radius:8px; background:#fff}
+figure img{display:block; width:100%; height:auto; border:1px solid var(--bord); border-radius:8px}
+figure a{display:block}
 figcaption{font-size:14px; color:var(--encre2)}
+.etude{max-width:none}
+.bloc{display:flex; flex-direction:column; gap:12px; padding:0; border:0}
+.bloc h4{font-size:24px; color:var(--encre)}
+.bloc [data-l] p{max-width:74ch}
+.galerie{display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start}
+.galerie.seule{grid-template-columns:minmax(0,640px)}
+@media (max-width:700px){.galerie{grid-template-columns:1fr}}
+.panneau{background:var(--bg); border:1px solid var(--bord); border-radius:10px; padding:16px; display:flex; flex-direction:column; gap:10px}
+.panneau-titre{font:700 12px var(--texte); letter-spacing:.1em; text-transform:uppercase; color:var(--teal)}
+.p-ligne{display:flex; flex-wrap:wrap; gap:6px; align-items:center}
+.p-lab{font-weight:700; font-size:14px; min-width:140px; color:var(--encre2)}
+.tag{font-size:13px; font-weight:700; padding:4px 10px; border-radius:5px; background:var(--teal); color:var(--bg)}
+.tag.sub{background:transparent; color:var(--encre); border:1px solid var(--teal)}
+.tag.bloc{background:transparent; color:var(--encre); border:1px dashed var(--estompe)}
+.video{position:relative; aspect-ratio:16/9; max-width:760px; border:1px solid var(--bord); border-radius:8px; overflow:hidden; background:#000}
+.video iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+.theme{font-size:16px; line-height:1; width:34px; height:30px; padding:0; display:inline-grid; place-items:center}
 .limites{border-left:3px solid var(--rouille); padding:4px 0 4px 14px; font-size:15px; color:var(--encre2)}
 .limites strong{display:block; color:var(--encre); margin-bottom:4px}
 .pied-projet{display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; align-items:center}
@@ -175,7 +201,7 @@ td.num{font:400 22px/1 var(--titre); white-space:nowrap}
 
 /* Glossaire */
 dialog{border:1px solid var(--bord); border-radius:12px; background:var(--carte); color:var(--encre); padding:0; width:min(760px,calc(100vw - 32px)); max-height:min(86vh,900px)}
-dialog::backdrop{background:rgba(28,25,23,.38)}
+dialog::backdrop{background:var(--ombre)}
 .g-tete{display:flex; justify-content:space-between; align-items:center; padding:18px 22px; border-bottom:1px solid var(--bord); position:sticky; top:0; background:var(--carte)}
 .g-tete h2{font-size:30px}
 dl{margin:0; padding:8px 22px 22px; display:grid; grid-template-columns:1fr 1fr; gap:0 26px}
@@ -203,6 +229,7 @@ footer .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:16
       <a href="#parcours"><span data-l="fr">Parcours</span><span data-l="en">Background</span></a>
     </nav>
     <div class="outils-barre">
+      <button class="btn theme" type="button" id="theme" aria-label="Mode clair / sombre" title="Mode clair / sombre">☀</button>
       <button class="btn" type="button" id="ouvrir-glossaire"><span data-l="fr">Glossaire</span><span data-l="en">Glossary</span></button>
       <div class="lang" role="group" aria-label="Langue / Language">
         <button type="button" data-lang-btn="fr" aria-pressed="true">FR</button><button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
@@ -244,9 +271,7 @@ footer .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:16
     <button type="button" data-filtre="data-ia" aria-pressed="false"><span data-l="fr">Data & IA</span><span data-l="en">Data & AI</span></button>
   </div>
   <div class="liste" id="liste">{{PROJETS}}</div>
-  <div class="mini-grille-wrap">
-    <div class="mini-grille">{{AUTRES}}</div>
-  </div>
+
 </div></section>
 
 <section id="nuls"><div class="wrap">
@@ -299,6 +324,15 @@ footer .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:16
   var body = document.body, PORTES = ["performance", "data-ia"];
   function lire(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function ecrire(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  // Thème : sombre par défaut, clair au choix (préférence mémorisée).
+  var bt = document.getElementById("theme");
+  function setTheme(th) {
+    if (th === "light") document.documentElement.setAttribute("data-theme", "light"); else document.documentElement.removeAttribute("data-theme");
+    bt.textContent = th === "light" ? "☾" : "☀"; ecrire("jl-theme", th);
+  }
+  setTheme(lire("jl-theme") === "light" ? "light" : "dark");
+  bt.addEventListener("click", function () { setTheme(document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light"); });
 
   // Langue : ?lang=en, sinon la préférence enregistrée, sinon la langue du navigateur.
   function setLang(l) {
