@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Julie Landrevie — Data, performance et IA appliquées au football</title>
+<meta name="description" content="Portfolio de Julie Landrevie : suivi de charge en football féminin, seuils féminins, analyse vidéo, assistant IA évalué. Données vérifiées, indicateurs lisibles, limites assumées.">
+<meta property="og:title" content="Julie Landrevie — Data & performance football">
+<meta property="og:description" content="Suivi de charge en football féminin, seuils féminins, analyse vidéo, assistant IA évalué.">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Lato:wght@400;700;900&display=swap">
+<style>
+:root{
+  --bg:#f6f1e7; --carte:#fbf8f2; --bord:#e4dccd; --encre:#1c1917; --encre2:#57534e; --estompe:#8a8580;
+  --teal:#0d8f84; --rouille:#cc4a12; --compare:#c9c0b1;
+  --titre:"DM Serif Display", Georgia, serif; --texte:"Lato", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:72px}
+body{margin:0; background:var(--bg); color:var(--encre); font:17px/1.6 var(--texte); -webkit-font-smoothing:antialiased}
+body[data-lang="fr"] [data-l="en"], body[data-lang="en"] [data-l="fr"]{display:none !important}
+a{color:var(--teal); text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--teal); outline-offset:3px; border-radius:3px}
+h1,h2,h3,h4{font-family:var(--titre); font-weight:400; line-height:1.1; margin:0; text-wrap:balance}
+p{margin:0}
+.wrap{max-width:1080px; margin:0 auto; padding:0 20px}
+.kicker{font:700 12px/1 var(--texte); letter-spacing:.12em; text-transform:uppercase; color:var(--teal)}
+section{padding:64px 0; border-top:1px solid var(--bord)}
+section > .wrap > h2{font-size:clamp(30px,4.4vw,42px); margin-bottom:10px}
+.intro-section{color:var(--encre2); max-width:62ch; margin-bottom:28px}
+
+/* En-tête */
+.barre{position:sticky; top:0; z-index:20; background:rgba(246,241,231,.94); backdrop-filter:blur(6px); border-bottom:1px solid var(--bord)}
+.barre .wrap{display:flex; align-items:center; gap:18px; height:60px}
+.mono{display:inline-grid; place-items:center; width:40px; height:32px; border:2px solid var(--teal); border-radius:7px; color:var(--teal); font:700 15px var(--texte); text-decoration:none; flex:none}
+.nav{display:flex; gap:18px; margin-left:auto; font-size:15px}
+.nav a{color:var(--encre2); text-decoration:none}
+.nav a:hover{color:var(--encre)}
+.outils-barre{display:flex; gap:8px; align-items:center}
+.btn{font:700 13px var(--texte); border:1px solid var(--bord); background:var(--carte); color:var(--encre); border-radius:6px; padding:6px 11px; cursor:pointer}
+.btn:hover{border-color:var(--teal)}
+.lang button{font:700 13px var(--texte); border:0; background:none; color:var(--estompe); cursor:pointer; padding:6px 4px}
+.lang button[aria-pressed="true"]{color:var(--encre); text-decoration:underline; text-decoration-color:var(--teal); text-underline-offset:5px}
+@media (max-width:820px){.nav{display:none}.outils-barre{margin-left:auto}}
+
+/* Héro */
+.hero{padding-top:56px; padding-bottom:48px}
+.hero h1{font-size:clamp(46px,8.6vw,92px); letter-spacing:-.01em}
+.role{font:400 clamp(20px,2.6vw,26px)/1.3 var(--titre); color:var(--teal); margin-top:12px; display:none}
+body[data-porte="tout"] .role[data-role="tout"], body[data-porte="performance"] .role[data-role="performance"], body[data-porte="data-ia"] .role[data-role="data-ia"]{display:block}
+.accroche{font-size:19px; max-width:64ch; margin-top:22px}
+.contact-ligne{display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; margin-top:20px; font-size:15px; color:var(--encre2)}
+.contact-ligne .mail{font-weight:700; color:var(--encre); user-select:all}
+.dispo{margin-top:16px; font-size:15px; color:var(--encre2)}
+.dispo b{color:var(--encre)}
+.portes{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:36px}
+.porte{display:flex; flex-direction:column; gap:10px; padding:22px; background:var(--carte); border:1px solid var(--bord); border-radius:10px; text-decoration:none; color:var(--encre); transition:border-color .15s, transform .15s}
+.porte:hover{border-color:var(--teal); transform:translateY(-2px)}
+.porte[aria-current="true"]{border-color:var(--teal); box-shadow:inset 0 0 0 1px var(--teal)}
+.porte-titre{font:400 28px/1.1 var(--titre)}
+.porte-texte{color:var(--encre2); font-size:16px}
+.porte-cta{margin-top:auto; color:var(--teal); font-weight:700; font-size:15px}
+@media (max-width:700px){.portes{grid-template-columns:1fr}}
+.compteurs{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border-top:2px solid var(--encre); margin-top:40px}
+.compteurs div{padding:16px 16px 4px 0; display:flex; flex-direction:column; gap:4px}
+.compteurs div + div{padding-left:16px; border-left:1px solid var(--bord)}
+.compteurs b{font:400 clamp(30px,4.6vw,46px)/1 var(--titre); font-variant-numeric:tabular-nums}
+.compteurs div > span{font-size:14px; color:var(--encre2); line-height:1.35}
+@media (max-width:700px){.compteurs{grid-template-columns:1fr 1fr}.compteurs div:nth-child(3){padding-left:0;border-left:0}}
+
+/* Méthode */
+.methode{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; counter-reset:m}
+.methode li{counter-increment:m; background:var(--carte); border:1px solid var(--bord); border-radius:10px; padding:18px; display:flex; flex-direction:column; gap:6px}
+.methode li::before{content:"0" counter(m); font:700 12px var(--texte); color:var(--teal); letter-spacing:.1em}
+.methode strong{font:400 22px/1.15 var(--titre)}
+.methode li > span{color:var(--encre2); font-size:15px}
+@media (max-width:820px){.methode{grid-template-columns:1fr 1fr}} @media (max-width:460px){.methode{grid-template-columns:1fr}}
+
+/* Filtres et projets */
+.filtres{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px}
+.filtres button{font:700 14px var(--texte); border:1px solid var(--bord); background:var(--carte); color:var(--encre2); border-radius:999px; padding:7px 15px; cursor:pointer}
+.filtres button[aria-pressed="true"]{background:var(--encre); color:var(--bg); border-color:var(--encre)}
+.liste{display:flex; flex-direction:column; gap:18px}
+.projet{background:var(--carte); border:1px solid var(--bord); border-radius:12px; padding:24px 26px; display:flex; flex-direction:column; gap:18px}
+.projet[hidden]{display:none}
+.projet h3{font-size:clamp(25px,3.2vw,32px); margin-top:8px}
+.question{font-size:18px; color:var(--encre2); margin-top:8px; font-style:italic}
+.figs{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0; border-top:1px solid var(--bord); border-bottom:1px solid var(--bord)}
+.fig{padding:14px 14px 14px 0; display:flex; flex-direction:column; gap:4px}
+.fig + .fig{padding-left:14px; border-left:1px solid var(--bord)}
+.fig b{font:400 clamp(26px,3.4vw,34px)/1 var(--titre); font-variant-numeric:tabular-nums; color:var(--encre)}
+.fig > span{font-size:14px; color:var(--encre2); line-height:1.35}
+@media (max-width:700px){.figs{grid-template-columns:1fr}.fig + .fig{padding-left:0;border-left:0;border-top:1px solid var(--bord)}}
+details summary{cursor:pointer; font-weight:700; color:var(--teal); list-style:none; display:inline-flex; gap:8px; align-items:center}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"+"; display:inline-grid; place-items:center; width:22px; height:22px; border:1.5px solid var(--teal); border-radius:50%; font-size:15px; line-height:1}
+details[open] summary::before{content:"−"}
+.etude{display:flex; flex-direction:column; gap:16px; margin-top:16px; max-width:76ch}
+.etude p{color:var(--encre)}
+.etude [data-l] p + p{margin-top:12px}
+figure{margin:0; display:flex; flex-direction:column; gap:8px}
+figure img{width:100%; height:auto; border:1px solid var(--bord); border-radius:8px; background:#fff}
+figcaption{font-size:14px; color:var(--encre2)}
+.limites{border-left:3px solid var(--rouille); padding:4px 0 4px 14px; font-size:15px; color:var(--encre2)}
+.limites strong{display:block; color:var(--encre); margin-bottom:4px}
+.pied-projet{display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; align-items:center}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chip{font-size:12px; font-weight:700; border:1px solid var(--bord); border-radius:4px; padding:2px 8px; color:var(--encre2); background:var(--bg)}
+.liens{display:flex; gap:16px; font-weight:700; font-size:15px}
+.mini-grille{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-top:22px}
+.mini{background:var(--carte); border:1px solid var(--bord); border-radius:10px; padding:16px; display:flex; flex-direction:column; gap:6px}
+.mini h4{font-size:22px} .mini p{font-size:15px; color:var(--encre2)} .mini a{margin-top:auto; font-weight:700; font-size:15px}
+@media (max-width:820px){.mini-grille{grid-template-columns:1fr}}
+body[data-porte="performance"] .mini-grille-wrap{display:none}
+
+/* Démos */
+.demo{background:var(--bg); border:1px solid var(--bord); border-radius:10px; padding:18px; display:flex; flex-direction:column; gap:12px}
+.demo-tete{display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center}
+.demo-tete strong{font:400 21px/1.2 var(--titre)}
+.demo-tete2{margin-top:10px; padding-top:14px; border-top:1px solid var(--bord)}
+.demo-sous,.demo-note{font-size:14px; color:var(--encre2)}
+.bascule{display:flex; flex-wrap:wrap; gap:6px}
+.bascule button{font:700 13px var(--texte); border:1px solid var(--bord); background:var(--carte); color:var(--encre2); border-radius:6px; padding:6px 10px; cursor:pointer}
+.bascule button[aria-pressed="true"]{border-color:var(--teal); color:var(--encre); box-shadow:inset 0 -3px 0 var(--teal)}
+.a19{display:flex; flex-direction:column; gap:12px; margin-top:4px}
+.a19-l{display:grid; grid-template-columns:180px 1fr 48px; gap:12px; align-items:center}
+.a19-nom{font-size:15px; font-weight:700}
+.a19-piste{position:relative; height:24px; background:linear-gradient(var(--bord),var(--bord)) center/100% 2px no-repeat}
+.a19-piste::after{content:""; position:absolute; left:50%; top:2px; bottom:2px; border-left:1px dashed var(--estompe)}
+.a19-ref,.a19-pt{position:absolute; top:50%; width:16px; height:16px; margin:-8px 0 0 -8px; border-radius:50%; transition:left .45s ease}
+.a19-ref{background:var(--compare); border:2px solid var(--bg)}
+.a19-pt{background:var(--teal); border:2px solid var(--bg); z-index:1}
+.a19-l.accent .a19-pt{background:var(--rouille)}
+.a19-v{font-weight:900; font-variant-numeric:tabular-nums; text-align:right}
+@media (max-width:560px){.a19-l{grid-template-columns:1fr 44px}.a19-nom{grid-column:1/-1}}
+.bargraph{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px}
+.bg-groupe{display:flex; flex-direction:column; gap:6px}
+.bg-lab{font-weight:700; font-size:15px; margin-bottom:2px}
+.bg-l{display:grid; grid-template-columns:96px 1fr 44px; gap:8px; align-items:center; font-size:13px; color:var(--encre2)}
+.bg-piste{height:14px; background:var(--carte); border-radius:2px}
+.bg-b{display:block; height:100%; background:var(--teal); border-radius:2px}
+.bg-b.ref{background:var(--compare)} .bg-b.accent{background:var(--rouille)}
+.bg-n{font-weight:900; color:var(--encre); text-align:right; font-variant-numeric:tabular-nums}
+@media (max-width:820px){.bargraph{grid-template-columns:1fr}}
+.q-question{font:400 20px/1.3 var(--titre)}
+.q-reps{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:10px}
+.q-rep{background:var(--carte); border:1px solid var(--bord); border-radius:8px; padding:14px; font-size:15px}
+.q-rep.faux{border-top:3px solid var(--compare)} .q-rep.juste{border-top:3px solid var(--teal)}
+.q-tag{display:block; font:700 12px var(--texte); letter-spacing:.06em; text-transform:uppercase; color:var(--encre2); margin-bottom:6px}
+.q-ref{font-size:14px; color:var(--encre2); margin-top:10px}
+@media (max-width:700px){.q-reps{grid-template-columns:1fr}}
+
+/* Résultats nuls, preuves, parcours */
+.nuls{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:14px}
+.nuls li{background:var(--carte); border:1px solid var(--bord); border-radius:10px; padding:18px; display:flex; flex-direction:column; gap:6px}
+.nul-lien{color:var(--encre); text-decoration:none} .nul-lien strong{font:400 21px/1.2 var(--titre)}
+.nuls p{font-size:15px; color:var(--encre2)}
+@media (max-width:700px){.nuls{grid-template-columns:1fr}}
+.table-wrap{overflow-x:auto; border:1px solid var(--bord); border-radius:10px; background:var(--carte)}
+table{border-collapse:collapse; width:100%; min-width:560px; font-size:15px}
+th{font:700 12px var(--texte); letter-spacing:.08em; text-transform:uppercase; color:var(--encre2); text-align:left; padding:11px 14px; border-bottom:1px solid var(--bord)}
+td{padding:11px 14px; border-bottom:1px solid var(--bord); vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num{font:400 22px/1 var(--titre); white-space:nowrap}
+.parcours{display:grid; grid-template-columns:1.4fr 1fr; gap:36px}
+.parcours h3{font-size:24px; margin-bottom:10px}
+.parcours ul{margin:0; padding-left:18px; display:flex; flex-direction:column; gap:10px}
+.parcours li p{font-size:15px; color:var(--encre2)}
+.date{font-size:14px; color:var(--estompe); font-weight:700}
+@media (max-width:820px){.parcours{grid-template-columns:1fr}}
+
+/* Glossaire */
+dialog{border:1px solid var(--bord); border-radius:12px; background:var(--carte); color:var(--encre); padding:0; width:min(760px,calc(100vw - 32px)); max-height:min(86vh,900px)}
+dialog::backdrop{background:rgba(28,25,23,.38)}
+.g-tete{display:flex; justify-content:space-between; align-items:center; padding:18px 22px; border-bottom:1px solid var(--bord); position:sticky; top:0; background:var(--carte)}
+.g-tete h2{font-size:30px}
+dl{margin:0; padding:8px 22px 22px; display:grid; grid-template-columns:1fr 1fr; gap:0 26px}
+.g-item{padding:12px 0; border-bottom:1px solid var(--bord)}
+dt{font-weight:900} dd{margin:2px 0 0; font-size:15px; color:var(--encre2)}
+@media (max-width:640px){dl{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--bord); padding:28px 0 40px; font-size:14px; color:var(--encre2)}
+footer .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px; align-items:center}
+.signature{display:flex; align-items:center; gap:10px; text-align:right}
+.signature b{display:block; color:var(--encre); font-size:15px}
+@media (prefers-reduced-motion:reduce){*{transition:none !important; scroll-behavior:auto !important}}
+</style>
+</head>
+<body data-lang="fr" data-porte="tout">
+
+<header class="barre">
+  <div class="wrap">
+    <a class="mono" href="#haut" aria-label="Julie Landrevie, accueil">JL</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#methode"><span data-l="fr">Méthode</span><span data-l="en">Method</span></a>
+      <a href="#projets"><span data-l="fr">Projets</span><span data-l="en">Projects</span></a>
+      <a href="#nuls"><span data-l="fr">Résultats nuls</span><span data-l="en">Null results</span></a>
+      <a href="#preuves"><span data-l="fr">Preuves</span><span data-l="en">Evidence</span></a>
+      <a href="#parcours"><span data-l="fr">Parcours</span><span data-l="en">Background</span></a>
+    </nav>
+    <div class="outils-barre">
+      <button class="btn" type="button" id="ouvrir-glossaire"><span data-l="fr">Glossaire</span><span data-l="en">Glossary</span></button>
+      <div class="lang" role="group" aria-label="Langue / Language">
+        <button type="button" data-lang-btn="fr" aria-pressed="true">FR</button><button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="haut">
+<div class="wrap hero">
+  <span class="kicker"><span data-l="fr">Portfolio · data, performance et IA</span><span data-l="en">Portfolio · data, performance and AI</span></span>
+  <h1>Julie Landrevie</h1>
+  <p class="role" data-role="tout"><span data-l="fr">Ingénieure data · performance et IA appliquées au football</span><span data-l="en" lang="en">Data engineer · performance and AI applied to football</span></p><p class="role" data-role="performance"><span data-l="fr">Data & performance · football féminin</span><span data-l="en" lang="en">Data & performance · women’s football</span></p><p class="role" data-role="data-ia"><span data-l="fr">Ingénieure data · Python, SQL & IA générative</span><span data-l="en" lang="en">Data engineer · Python, SQL & generative AI</span></p>
+  <p class="accroche"><span data-l="fr">Ingénieure, quatre ans de conseil sur la donnée et les indicateurs, dont une mission pour le Comité d’Organisation des Jeux Olympiques Paris 2024. Joueuse et coach de football depuis plus de dix ans, je construis des projets ouverts sur de vraies données sportives, avec une priorité : le football féminin. Des données vérifiées, des indicateurs lisibles, des limites dites d’emblée.</span><span data-l="en" lang="en">Engineer with four years of data and KPI consulting, including the Paris 2024 Olympic Organising Committee. A football player and coach for over ten years, I build open projects on real sports data, with one priority: women’s football. Verified data, readable indicators, limits stated upfront.</span></p>
+  <div class="contact-ligne">
+    <span class="mail" id="mail">julie.landrevie@free.fr</span>
+    <button class="btn" type="button" id="copier"><span data-l="fr">Copier l’adresse</span><span data-l="en">Copy address</span></button>
+    <a href="https://www.linkedin.com/in/julie-landrevie/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/Julie-Landrevie" target="_blank" rel="noopener">GitHub</a>
+    <span><span data-l="fr">Île-de-France · à distance possible</span><span data-l="en">Paris area · remote possible</span></span>
+  </div>
+  <p class="dispo"><b><span data-l="fr">Disponible à partir de janvier 2027</span><span data-l="en">Available from January 2027</span></b> <span data-l="fr">pour un stage, un poste ou une mission, sur place ou à distance.</span><span data-l="en" lang="en">for an internship, a job or a project, on site or remote.</span></p>
+  <nav class="portes" aria-label="Dossiers"><a class="porte" href="#performance" data-porte="performance">
+  <span class="kicker"><span data-l="fr">Dossier</span><span data-l="en" lang="en">Track</span></span>
+  <span class="porte-titre"><span data-l="fr">Performance & football féminin</span><span data-l="en" lang="en">Performance & women’s football</span></span>
+  <span class="porte-texte"><span data-l="fr">Suivi de charge, seuils adaptés aux joueuses, analyse vidéo : des indicateurs qu’un staff peut lire et utiliser.</span><span data-l="en" lang="en">Load monitoring, thresholds fitted to female players, video analysis: indicators a staff can read and use.</span></span>
+  <span class="porte-cta"><span data-l="fr">Voir les projets →</span><span data-l="en" lang="en">See the projects →</span></span></a><a class="porte" href="#data-ia" data-porte="data-ia">
+  <span class="kicker"><span data-l="fr">Dossier</span><span data-l="en" lang="en">Track</span></span>
+  <span class="porte-titre"><span data-l="fr">Data & IA</span><span data-l="en" lang="en">Data & AI</span></span>
+  <span class="porte-texte"><span data-l="fr">Pipelines de données contrôlés, assistant d’IA générative évalué, code testé : la rigueur d’une ingénieure appliquée au sport.</span><span data-l="en" lang="en">Quality-checked data pipelines, an evaluated generative-AI assistant, tested code: engineering rigour applied to sport.</span></span>
+  <span class="porte-cta"><span data-l="fr">Voir les projets →</span><span data-l="en" lang="en">See the projects →</span></span></a></nav>
+  <div class="compteurs"><div><b><span class="n" data-l="fr">11</span><span class="n" data-l="en" lang="en">11</span></b><span data-l="fr">projets publiés, code ouvert</span><span data-l="en" lang="en">published projects, open code</span></div><div><b><span class="n" data-l="fr">80+</span><span class="n" data-l="en" lang="en">80+</span></b><span data-l="fr">tests unitaires sur quatre projets</span><span data-l="en" lang="en">unit tests across four projects</span></div><div><b><span class="n" data-l="fr">10 075</span><span class="n" data-l="en" lang="en">10,075</span></b><span data-l="fr">fichiers GPS de joueuses contrôlés</span><span data-l="en" lang="en">GPS files from female players checked</span></div><div><b><span class="n" data-l="fr">4</span><span class="n" data-l="en" lang="en">4</span></b><span data-l="fr">résultats nuls ou contre-intuitifs publiés</span><span data-l="en" lang="en">null or counter-intuitive results published</span></div></div>
+</div>
+
+<section id="methode"><div class="wrap">
+  <h2><span data-l="fr">Ma façon de travailler</span><span data-l="en">How I work</span></h2>
+  <p class="intro-section"><span data-l="fr">Un chiffre ne vaut que s’il aide à décider. Chaque projet suit les mêmes quatre étapes.</span><span data-l="en">A number is only worth something if it helps a decision. Every project follows the same four steps.</span></p>
+  <ol class="methode"><li><strong><span data-l="fr">Vérifier</span><span data-l="en" lang="en">Check</span></strong><span data-l="fr">Complétude, doublons, valeurs impossibles. Rien n’est corrigé en silence.</span><span data-l="en" lang="en">Completeness, duplicates, impossible values. Nothing is silently fixed.</span></li><li><strong><span data-l="fr">Mesurer</span><span data-l="en" lang="en">Measure</span></strong><span data-l="fr">Des indicateurs définis avant de regarder les résultats, et une référence pour comparer.</span><span data-l="en" lang="en">Indicators defined before looking at results, and a baseline to compare with.</span></li><li><strong><span data-l="fr">Localiser</span><span data-l="en" lang="en">Locate</span></strong><span data-l="fr">Trouver le maillon faible : la donnée, le calcul, la recherche ou le modèle.</span><span data-l="en" lang="en">Find the weak link: the data, the computation, the retrieval or the model.</span></li><li><strong><span data-l="fr">Corriger et remesurer</span><span data-l="en" lang="en">Fix and re-measure</span></strong><span data-l="fr">Une correction ciblée, la même mesure, et des limites écrites noir sur blanc.</span><span data-l="en" lang="en">One targeted fix, the same measurement, and limits written down.</span></li></ol>
+</div></section>
+
+<section id="projets"><div class="wrap">
+  <h2><span data-l="fr">Projets</span><span data-l="en">Projects</span></h2>
+  <p class="intro-section"><span data-l="fr">Chaque étude part d’une question, donne ses chiffres, montre un visuel et dit ce qu’elle ne permet pas de conclure.</span><span data-l="en">Each study starts from a question, gives its numbers, shows a visual and says what it cannot conclude.</span></p>
+  <div class="filtres" role="group" aria-label="Filtrer">
+    <button type="button" data-filtre="tout" aria-pressed="true"><span data-l="fr">Tout</span><span data-l="en">All</span></button>
+    <button type="button" data-filtre="performance" aria-pressed="false"><span data-l="fr">Performance & football féminin</span><span data-l="en">Performance & women’s football</span></button>
+    <button type="button" data-filtre="data-ia" aria-pressed="false"><span data-l="fr">Data & IA</span><span data-l="en">Data & AI</span></button>
+  </div>
+  <div class="liste" id="liste">
+<article class="projet" id="charge" data-portes="performance data-ia" data-o-performance="1" data-o-data-ia="2" data-o-tout="1">
+  <div class="projet-tete">
+    <span class="kicker">2026</span>
+    <h3><span data-l="fr">Suivi de charge et de forme en football féminin d’élite</span><span data-l="en" lang="en">Load and wellness monitoring in elite women’s football</span></h3>
+    <p class="question"><span data-l="fr">Quelles joueuses s’écartent de leur charge habituelle, sans noyer le staff sous les alertes ?</span><span data-l="en" lang="en">Which players are drifting from their usual load, without drowning the staff in alerts?</span></p>
+  </div>
+  <div class="figs"><div class="fig"><b><span class="n" data-l="fr">10 075</span><span class="n" data-l="en" lang="en">10,075</span></b><span data-l="fr">fichiers GPS à 10 Hz (environ 99 Go) contrôlés et traités en parallèle</span><span data-l="en" lang="en">10 Hz GPS files (about 99 GB) checked and processed in parallel</span></div><div class="fig"><b><span class="n" data-l="fr">98 %</span><span class="n" data-l="en" lang="en">98%</span></b><span data-l="fr">des 21 490 jours-joueuses où l’ACWR recalculé reproduit la source à moins de 0,1</span><span data-l="en" lang="en">of the 21,490 player-days where the recomputed ACWR matches the source within 0.1</span></div><div class="fig"><b><span class="n" data-l="fr">13–16</span><span class="n" data-l="en" lang="en">13–16</span></b><span data-l="fr">épisodes d’alerte par joueuse et par an, au lieu d’un jour sur cinq</span><span data-l="en" lang="en">alert episodes per player per year, instead of one day in five</span></div></div>
+  <details>
+    <summary><span data-l="fr">Voir l’étude</span><span data-l="en" lang="en">Read the study</span></summary>
+    <div class="etude">
+      <div data-l="fr"><p>Données ouvertes SoccerMon (Midoglu et al., <em>Scientific Data</em>, 2024) : deux équipes norvégiennes de première division, saisons 2020 et 2021, 50 joueuses.</p><p><strong>Contrôle qualité d’abord</strong> : les fichiers GPS bruts répétaient chaque mesure 10 fois. Sans correction, toutes les distances auraient été multipliées par 10.</p><p><strong>Des alertes traitables</strong> : contexte de l’équipe, persistance sur 3 jours, regroupement en épisodes. La part de jours en sous-charge passe de 13 % à 2–3 %.</p><p><strong>Un ACWR GPS en complément</strong> : dans 92 % des pics de course à haute intensité, l’ACWR calculé sur la charge ressentie reste sous le seuil.</p></div><div data-l="en" lang="en"><p>Open SoccerMon data (Midoglu et al., <em>Scientific Data</em>, 2024): two Norwegian top-division teams, 2020 and 2021 seasons, 50 players.</p><p><strong>Quality control first</strong>: the raw GPS files repeated every measurement 10 times. Without the fix, every distance would have been multiplied by 10.</p><p><strong>Alerts a staff can handle</strong>: team context, 3-day persistence, grouped into episodes. Underload days drop from 13% to 2–3%.</p><p><strong>A GPS-based ACWR alongside</strong>: in 92% of high-speed running peaks, the ACWR based on perceived load stays below the threshold.</p></div>
+      
+      <figure><img src="assets/charge_joueuse.webp" alt="Vue joueuse : charge du jour, charges aiguë et chronique, ACWR. Les points signalent une sortie de zone individuelle." loading="lazy" width="1200"><figcaption><span data-l="fr">Vue joueuse : charge du jour, charges aiguë et chronique, ACWR. Les points signalent une sortie de zone individuelle.</span><span data-l="en" lang="en">Player view: daily load, acute and chronic load, ACWR. Dots flag an individual drift (chart in French).</span></figcaption></figure>
+      <div class="limites"><strong><span data-l="fr">Ce que l’étude ne permet pas de conclure</span><span data-l="en" lang="en">What this study cannot conclude</span></strong><p data-l="fr">Blessures auto-déclarées et pas de groupe témoin : la piste « avant blessure » reste descriptive. Dans SoccerMon, un jour sans déclaration vaut 0 : aucune alerte n’est émise sous 70 % de jours documentés.</p><p data-l="en" lang="en">Self-reported injuries and no control group: the pre-injury analysis stays descriptive. In SoccerMon a day without a report is coded 0: no alert is raised below 70% documented days.</p></div>
+    </div>
+  </details>
+  <div class="pied-projet"><div class="chips"><span class="chip" data-l="fr">R</span><span class="chip" data-l="en" lang="en">R</span><span class="chip" data-l="fr">tidyverse</span><span class="chip" data-l="en" lang="en">tidyverse</span><span class="chip" data-l="fr">arrow</span><span class="chip" data-l="en" lang="en">arrow</span><span class="chip" data-l="fr">ggplot2</span><span class="chip" data-l="en" lang="en">ggplot2</span><span class="chip" data-l="fr">R Markdown</span><span class="chip" data-l="en" lang="en">R Markdown</span><span class="chip" data-l="fr">GitHub Pages</span><span class="chip" data-l="en" lang="en">GitHub Pages</span></div><div class="liens"><a href="https://julie-landrevie.github.io/womens-football-load-monitoring/" target="_blank" rel="noopener"><span data-l="fr">Tableau de bord ↗</span><span data-l="en" lang="en">Dashboard ↗</span></a><a href="https://github.com/Julie-Landrevie/womens-football-load-monitoring" target="_blank" rel="noopener"><span data-l="fr">Code ↗</span><span data-l="en" lang="en">Code ↗</span></a></div></div>
+</article>
+<article class="projet" id="vestiaire" data-portes="performance data-ia" data-o-performance="2" data-o-data-ia="4" data-o-tout="2">
+  <div class="projet-tete">
+    <span class="kicker">2026</span>
+    <h3><span data-l="fr">Vestiaire : seuils féminins et outil de suivi pour les staffs</span><span data-l="en" lang="en">Vestiaire: women’s thresholds and a monitoring tool for staffs</span></h3>
+    <p class="question"><span data-l="fr">Les seuils de sprint masculins cachent-ils des joueuses ?</span><span data-l="en" lang="en">Do men’s sprint thresholds hide some players?</span></p>
+  </div>
+  <div class="figs"><div class="fig"><b><span class="n" data-l="fr">43 → 15 %</span><span class="n" data-l="en" lang="en">43 → 15%</span></b><span data-l="fr">des séances de match sans aucun sprint, seuils masculins puis féminins</span><span data-l="en" lang="en">of match sessions with no sprint at all, men’s then women’s thresholds</span></div><div class="fig"><b><span class="n" data-l="fr">16 → 69 m</span><span class="n" data-l="en" lang="en">16 → 69 m</span></b><span data-l="fr">de sprint en match (médiane), seuils masculins puis féminins</span><span data-l="en" lang="en">of sprinting per match (median), men’s then women’s thresholds</span></div><div class="fig"><b><span class="n" data-l="fr">0,96</span><span class="n" data-l="en" lang="en">0.96</span></b><span data-l="fr">corrélation de rang entre les deux classements : le gain est individuel</span><span data-l="en" lang="en">rank correlation between the two rankings: the gain is individual</span></div></div>
+  <details>
+    <summary><span data-l="fr">Voir l’étude</span><span data-l="en" lang="en">Read the study</span></summary>
+    <div class="etude">
+      <div data-l="fr"><p>Les seuils féminins de SkillCorner (sprint au-delà de 23 km/h, accélération haute au-delà de 2,7 m/s²) comparés aux seuils masculins habituels (25 km/h, 3 m/s²) sur les mêmes données GPS SoccerMon : 8 905 séances de 68 joueuses de champ.</p><p><strong>Vestiaire</strong> est l’outil que j’en tire : la joueuse renseigne son état et sa séance en moins de 30 secondes, le staff voit charge, forme et alertes déjà calculées. Prototype de 20 écrans, dont la vue effectif et la fiche joueuse sur vraies données anonymisées.</p><p>Principe : « Vestiaire ne surveille pas les joueuses, il aide le staff à les écouter. » Seuils féminins par défaut, chaque joueuse comparée à elle-même, aucun conseil d’entraînement selon le cycle menstruel.</p></div><div data-l="en" lang="en"><p>SkillCorner’s women’s thresholds (sprint above 23 km/h, high acceleration above 2.7 m/s²) compared with the usual men’s thresholds (25 km/h, 3 m/s²) on the same SoccerMon GPS data: 8,905 sessions from 68 outfield players.</p><p><strong>Vestiaire</strong> is the tool built on it: players log their wellness and session in under 30 seconds, the staff sees load, form and alerts already computed. A 20-screen prototype; the squad view and player profile run on real anonymised data.</p><p>Principle: “Vestiaire doesn’t monitor players, it helps the staff listen to them.” Women’s thresholds by default, each player compared with herself, no training advice based on the menstrual cycle.</p></div>
+      
+<div class="demo" id="demo-a19">
+  <div class="demo-tete"><strong><span data-l="fr">Démo : la joueuse A-19 selon les seuils</span><span data-l="en" lang="en">Demo: player A-19 under each threshold</span></strong>
+    <div class="bascule" role="group" aria-label="Seuils">
+      <button type="button" data-seuil="h" aria-pressed="false"><span data-l="fr">Seuils masculins</span><span data-l="en" lang="en">Men’s thresholds</span></button>
+      <button type="button" data-seuil="f" aria-pressed="true"><span data-l="fr">Seuils féminins</span><span data-l="en" lang="en">Women’s thresholds</span></button>
+    </div></div>
+  <p class="demo-sous"><span data-l="fr">Percentile parmi 63 joueuses de champ, moyenne par séance sur 63 séances GPS. Repère gris : l’autre jeu de seuils.</span><span data-l="en" lang="en">Percentile among 63 outfield players, per-session average over 63 GPS sessions. Grey mark: the other set of thresholds.</span></p>
+  <div class="a19"><div class="a19-l" data-h="56" data-f="35"><span class="a19-nom"><span data-l="fr">Course à haute vitesse</span><span data-l="en" lang="en">High-speed running</span></span><span class="a19-piste"><span class="a19-ref" style="left:56%"></span><span class="a19-pt" style="left:35%"></span></span><span class="a19-v"><span data-l="fr">35e</span><span data-l="en" lang="en">35th</span></span></div><div class="a19-l" data-h="24" data-f="52"><span class="a19-nom"><span data-l="fr">Distance de sprint</span><span data-l="en" lang="en">Sprint distance</span></span><span class="a19-piste"><span class="a19-ref" style="left:24%"></span><span class="a19-pt" style="left:52%"></span></span><span class="a19-v"><span data-l="fr">52e</span><span data-l="en" lang="en">52nd</span></span></div><div class="a19-l accent" data-h="19" data-f="71"><span class="a19-nom"><span data-l="fr">Nombre de sprints</span><span data-l="en" lang="en">Number of sprints</span></span><span class="a19-piste"><span class="a19-ref" style="left:19%"></span><span class="a19-pt" style="left:71%"></span></span><span class="a19-v"><span data-l="fr">71e</span><span data-l="en" lang="en">71st</span></span></div><div class="a19-l" data-h="11" data-f="3"><span class="a19-nom"><span data-l="fr">Accélérations hautes</span><span data-l="en" lang="en">High accelerations</span></span><span class="a19-piste"><span class="a19-ref" style="left:11%"></span><span class="a19-pt" style="left:3%"></span></span><span class="a19-v"><span data-l="fr">3e</span><span data-l="en" lang="en">3rd</span></span></div><div class="a19-l" data-h="49" data-f="48"><span class="a19-nom"><span data-l="fr">Décélérations hautes</span><span data-l="en" lang="en">High decelerations</span></span><span class="a19-piste"><span class="a19-ref" style="left:49%"></span><span class="a19-pt" style="left:48%"></span></span><span class="a19-v"><span data-l="fr">48e</span><span data-l="en" lang="en">48th</span></span></div></div>
+  <p class="demo-note"><span data-l="fr">Ses sprints entre 23 et 25 km/h existent : le seuil de 25 km/h les effaçait. Ses accélérations hautes restent basses : une question à vérifier en vidéo, pas un diagnostic.</span><span data-l="en" lang="en">Her sprints between 23 and 25 km/h exist: the 25 km/h threshold erased them. Her high accelerations stay low: a question to check on video, not a diagnosis.</span></p>
+</div>
+      <figure><img src="assets/effectif_ratio.webp" alt="Vue effectif la veille d&#x27;un match : autour de 0,77, la baisse correspond à un affûtage ; seule la forte baisse mérite une question au staff." loading="lazy" width="1200"><figcaption><span data-l="fr">Vue effectif la veille d’un match : autour de 0,77, la baisse correspond à un affûtage ; seule la forte baisse mérite une question au staff.</span><span data-l="en" lang="en">Squad view the day before a match: around 0.77 the drop fits a taper; only the sharp drop deserves a question (chart in French).</span></figcaption></figure>
+      <div class="limites"><strong><span data-l="fr">Ce que l’étude ne permet pas de conclure</span><span data-l="en" lang="en">What this study cannot conclude</span></strong><p data-l="fr">SoccerMon ne distingue pas match et entraînement : les jours de match sont estimés (137 jours où au moins 8 joueuses dépassent 7 km). Les seuils sont ceux de SkillCorner ; les calculs sur SoccerMon sont les miens. Projet personnel, non commercial.</p><p data-l="en" lang="en">SoccerMon does not separate matches from training: match days are estimated (137 days where at least 8 players exceed 7 km). The thresholds are SkillCorner’s; the computations on SoccerMon are mine. Personal, non-commercial project.</p></div>
+    </div>
+  </details>
+  <div class="pied-projet"><div class="chips"><span class="chip" data-l="fr">Python</span><span class="chip" data-l="en" lang="en">Python</span><span class="chip" data-l="fr">pandas</span><span class="chip" data-l="en" lang="en">pandas</span><span class="chip" data-l="fr">unittest</span><span class="chip" data-l="en" lang="en">unittest</span><span class="chip" data-l="fr">Prototype</span><span class="chip" data-l="en" lang="en">Prototype</span></div><div class="liens"><a href="https://github.com/Julie-Landrevie/vestiaire-metrics" target="_blank" rel="noopener"><span data-l="fr">Code et résultats ↗</span><span data-l="en" lang="en">Code and results ↗</span></a></div></div>
+</article>
+<article class="projet" id="lois" data-portes="data-ia" data-o-data-ia="1" data-o-tout="3">
+  <div class="projet-tete">
+    <span class="kicker">2026</span>
+    <h3><span data-l="fr">Assistant IA sur les Lois du Jeu : RAG et évaluation</span><span data-l="en" lang="en">AI assistant on the Laws of the Game: RAG and evaluation</span></h3>
+    <p class="question"><span data-l="fr">Un modèle de langage répond-il mieux avec le texte officiel que de mémoire ?</span><span data-l="en" lang="en">Does a language model answer better with the official text than from memory?</span></p>
+  </div>
+  <div class="figs"><div class="fig"><b><span class="n" data-l="fr">22 % → 0</span><span class="n" data-l="en" lang="en">22% → 0</span></b><span data-l="fr">de réponses fausses, sans puis avec le livret officiel de l’IFAB</span><span data-l="en" lang="en">wrong answers, without then with the official IFAB booklet</span></div><div class="fig"><b><span class="n" data-l="fr">94 %</span><span class="n" data-l="en" lang="en">94%</span></b><span data-l="fr">de réponses exactes après correction de la recherche (81 % en v1)</span><span data-l="en" lang="en">correct answers after fixing the retrieval (81% in v1)</span></div><div class="fig"><b><span class="n" data-l="fr">3 sur 3</span><span class="n" data-l="en" lang="en">3 of 3</span></b><span data-l="fr">verdicts « faux » du juge automatique démentis à la relecture</span><span data-l="en" lang="en">“wrong” verdicts from the automatic judge overturned on review</span></div></div>
+  <details>
+    <summary><span data-l="fr">Voir l’étude</span><span data-l="en" lang="en">Read the study</span></summary>
+    <div class="etude">
+      <div data-l="fr"><p>Livret IFAB 2026/27 (276 pages) découpé par loi avec contrôle qualité, recherche BM25 codée à la main, génération par l’API Mistral avec citation obligatoire de la loi et phrase de refus imposée.</p><p>Évaluation sur 40 questions, avec et sans le document : exactitude, bonne loi citée, refus justifiés, rappel de la recherche, accord entre juge automatique et relecture humaine.</p><p><strong>Le maillon faible était la recherche</strong> : 5 refus sur 7 venaient de passages mal retrouvés. Une fois la recherche limitée aux 17 lois, la bonne loi est retrouvée dans 100 % des cas.</p></div><div data-l="en" lang="en"><p>IFAB 2026/27 booklet (276 pages) split by law with quality checks, hand-coded BM25 retrieval, generation through the Mistral API with mandatory law citation and an enforced refusal sentence.</p><p>Evaluated on 40 questions, with and without the document: accuracy, correct law cited, justified refusals, retrieval recall, agreement between the automatic judge and human review.</p><p><strong>The weak link was retrieval</strong>: 5 of 7 refusals came from passages that were not found. Once retrieval was limited to the 17 laws, the right law was retrieved 100% of the time.</p></div>
+      
+<div class="demo" id="demo-lois">
+  <div class="demo-tete"><strong><span data-l="fr">Résultats sur 40 questions</span><span data-l="en" lang="en">Results on 40 questions</span></strong></div>
+  <div class="bargraph"><div class="bg-groupe"><span class="bg-lab"><span data-l="fr">Réponses exactes</span><span data-l="en" lang="en">Correct answers</span></span><div class="bg-l"><span class="bg-v"><span data-l="fr">Sans document</span><span data-l="en" lang="en">No document</span></span><span class="bg-piste"><span class="bg-b ref" style="width:75%"></span></span><span class="bg-n"><span class="n" data-l="fr">75 %</span><span class="n" data-l="en" lang="en">75%</span></span></div><div class="bg-l"><span class="bg-v"><span data-l="fr">RAG v1</span><span data-l="en" lang="en">RAG v1</span></span><span class="bg-piste"><span class="bg-b" style="width:81%"></span></span><span class="bg-n"><span class="n" data-l="fr">81 %</span><span class="n" data-l="en" lang="en">81%</span></span></div><div class="bg-l"><span class="bg-v"><span data-l="fr">RAG v2</span><span data-l="en" lang="en">RAG v2</span></span><span class="bg-piste"><span class="bg-b accent" style="width:94%"></span></span><span class="bg-n"><span class="n" data-l="fr">94 %</span><span class="n" data-l="en" lang="en">94%</span></span></div></div><div class="bg-groupe"><span class="bg-lab"><span data-l="fr">Réponses fausses</span><span data-l="en" lang="en">Wrong answers</span></span><div class="bg-l"><span class="bg-v"><span data-l="fr">Sans document</span><span data-l="en" lang="en">No document</span></span><span class="bg-piste"><span class="bg-b ref" style="width:22%"></span></span><span class="bg-n"><span class="n" data-l="fr">22 %</span><span class="n" data-l="en" lang="en">22%</span></span></div><div class="bg-l"><span class="bg-v"><span data-l="fr">RAG v1</span><span data-l="en" lang="en">RAG v1</span></span><span class="bg-piste"><span class="bg-b" style="width:0.6%"></span></span><span class="bg-n"><span class="n" data-l="fr">0 %</span><span class="n" data-l="en" lang="en">0%</span></span></div><div class="bg-l"><span class="bg-v"><span data-l="fr">RAG v2</span><span data-l="en" lang="en">RAG v2</span></span><span class="bg-piste"><span class="bg-b" style="width:0.6%"></span></span><span class="bg-n"><span class="n" data-l="fr">0 %</span><span class="n" data-l="en" lang="en">0%</span></span></div></div><div class="bg-groupe"><span class="bg-lab"><span data-l="fr">Refus à tort</span><span data-l="en" lang="en">Wrong refusals</span></span><div class="bg-l"><span class="bg-v"><span data-l="fr">Sans document</span><span data-l="en" lang="en">No document</span></span><span class="bg-piste"><span class="bg-b ref" style="width:3%"></span></span><span class="bg-n"><span class="n" data-l="fr">3 %</span><span class="n" data-l="en" lang="en">3%</span></span></div><div class="bg-l"><span class="bg-v"><span data-l="fr">RAG v1</span><span data-l="en" lang="en">RAG v1</span></span><span class="bg-piste"><span class="bg-b" style="width:19%"></span></span><span class="bg-n"><span class="n" data-l="fr">19 %</span><span class="n" data-l="en" lang="en">19%</span></span></div><div class="bg-l"><span class="bg-v"><span data-l="fr">RAG v2</span><span data-l="en" lang="en">RAG v2</span></span><span class="bg-piste"><span class="bg-b" style="width:3%"></span></span><span class="bg-n"><span class="n" data-l="fr">3 %</span><span class="n" data-l="en" lang="en">3%</span></span></div></div></div>
+  <div class="demo-tete demo-tete2"><strong><span data-l="fr">Démo : trois questions, sans puis avec le livret</span><span data-l="en" lang="en">Demo: three questions, without then with the booklet</span></strong>
+    <div class="bascule onglets" role="group"><button type="button" data-q="q25" aria-pressed="true"><span data-l="fr">Le gardien et le ballon</span><span data-l="en" lang="en">Goalkeeper holding the ball</span></button><button type="button" data-q="q33" aria-pressed="false"><span data-l="fr">Rentrée de touche lente (2026/27)</span><span data-l="en" lang="en">Slow throw-in (2026/27)</span></button><button type="button" data-q="q34" aria-pressed="false"><span data-l="fr">Coup de pied de but</span><span data-l="en" lang="en">Goal kick</span></button></div></div>
+  <div class="q-panneau" data-q="q25">
+  <p class="q-question"><span data-l="fr">Combien de temps le gardien peut-il garder le ballon en main, et quelle est la sanction s’il dépasse ce délai ?</span><span data-l="en" lang="en">How long can the goalkeeper hold the ball, and what is the sanction if they exceed it?</span></p>
+  <div class="q-reps">
+    <div class="q-rep faux"><span class="q-tag"><span data-l="fr">Sans le livret · fausse</span><span data-l="en" lang="en">Without the booklet · wrong</span></span><p data-l="fr">Le gardien de but ne peut pas garder le ballon en main pendant plus de six secondes. Si ce délai est dépassé, l’arbitre accorde un corner à l’équipe adverse. [Loi 12]</p><p data-l="en" lang="en">The goalkeeper may not hold the ball for more than six seconds. If this limit is exceeded, the referee awards a corner kick to the opposing team. [Law 12]</p></div>
+    <div class="q-rep juste"><span class="q-tag"><span data-l="fr">Avec le livret (v2) · exacte</span><span data-l="en" lang="en">With the booklet (v2) · correct</span></span><p data-l="fr">Le gardien de but peut conserver le ballon à la main pendant huit secondes maximum à l’intérieur de sa surface de réparation [Loi 12]. S’il dépasse ce délai, un corner est accordé à l’équipe adverse [Loi 12].</p><p data-l="en" lang="en">The goalkeeper may keep the ball in their hands for a maximum of eight seconds inside their penalty area [Law 12]. If they exceed this limit, a corner kick is awarded to the opposing team [Law 12].</p></div>
+  </div>
+  <p class="q-ref"><span data-l="fr">Référence : 8 secondes ; au-delà, un corner est accordé à l’équipe adverse.</span><span data-l="en" lang="en">Reference: 8 seconds; beyond that, a corner kick is awarded to the opposing team.</span></p>
+</div><div class="q-panneau" data-q="q33" hidden>
+  <p class="q-question"><span data-l="fr">Que peut faire l’arbitre si une équipe tarde à effectuer une rentrée de touche ?</span><span data-l="en" lang="en">What can the referee do if a team delays taking a throw-in?</span></p>
+  <div class="q-reps">
+    <div class="q-rep faux"><span class="q-tag"><span data-l="fr">Sans le livret · fausse</span><span data-l="en" lang="en">Without the booklet · wrong</span></span><p data-l="fr">L’arbitre doit infliger un avertissement (carton jaune) au joueur qui retarde la reprise du jeu. Cette sanction s’applique pour comportement antisportif lorsqu’une équipe tarde à effectuer une rentrée de touche. [Loi 12]</p><p data-l="en" lang="en">The referee must caution (yellow card) the player who delays the restart of play. This sanction applies for unsporting behaviour when a team delays taking a throw-in. [Law 12]</p></div>
+    <div class="q-rep juste"><span class="q-tag"><span data-l="fr">Avec le livret (v2) · exacte</span><span data-l="en" lang="en">With the booklet (v2) · correct</span></span><p data-l="fr">L’arbitre donne un coup de sifflet et signale le début d’un décompte visuel de cinq secondes, main levée [Loi 15]. Si la rentrée de touche n’est pas exécutée à la fin de ce décompte, elle est accordée à l’équipe adverse [Loi 15]. Le joueur fautif n’est averti que s’il retarde excessivement la reprise du jeu après que la rentrée a été accordée à l’adversaire [Loi 12][Loi 15].</p><p data-l="en" lang="en">The referee blows the whistle and signals the start of a visual five-second count with a raised hand [Law 15]. If the throw-in is not taken by the end of the count, it is awarded to the opposing team [Law 15]. The offending player is only cautioned if they excessively delay the restart after the throw-in has been awarded to the opponents [Law 12][Law 15].</p></div>
+  </div>
+  <p class="q-ref"><span data-l="fr">Référence : Lancer un décompte visuel de 5 secondes ; si la rentrée n’est pas effectuée à temps, elle est accordée à l’équipe adverse.</span><span data-l="en" lang="en">Reference: Start a visual five-second count; if the throw-in is not taken in time, it is awarded to the opposing team.</span></p>
+</div><div class="q-panneau" data-q="q34" hidden>
+  <p class="q-question"><span data-l="fr">Quand le ballon est-il en jeu sur un coup de pied de but ?</span><span data-l="en" lang="en">When is the ball in play at a goal kick?</span></p>
+  <div class="q-reps">
+    <div class="q-rep faux"><span class="q-tag"><span data-l="fr">Sans le livret · fausse</span><span data-l="en" lang="en">Without the booklet · wrong</span></span><p data-l="fr">Le ballon est en jeu sur un coup de pied de but lorsqu’il est botté et qu’il sort clairement de la surface de réparation. Les adversaires doivent se trouver à l’extérieur de la surface de réparation lorsque le ballon est en jeu. [Loi 16]</p><p data-l="en" lang="en">The ball is in play at a goal kick when it is kicked and clearly leaves the penalty area. Opponents must be outside the penalty area when the ball is in play. [Law 16]</p></div>
+    <div class="q-rep juste"><span class="q-tag"><span data-l="fr">Avec le livret (v2) · exacte</span><span data-l="en" lang="en">With the booklet (v2) · correct</span></span><p data-l="fr">Lors d’un coup de pied de but, le ballon est en jeu dès qu’il est botté et a clairement bougé [Loi 16]. Les adversaires doivent se trouver en dehors de la surface de réparation jusqu’à ce que le ballon soit en jeu [Loi 16].</p><p data-l="en" lang="en">At a goal kick, the ball is in play as soon as it is kicked and has clearly moved [Law 16]. Opponents must remain outside the penalty area until the ball is in play [Law 16].</p></div>
+  </div>
+  <p class="q-ref"><span data-l="fr">Référence : Dès qu’il est botté et bouge clairement (il n’a pas besoin de sortir de la surface).</span><span data-l="en" lang="en">Reference: As soon as it is kicked and clearly moves (it does not need to leave the penalty area).</span></p>
+</div>
+  <p class="demo-note"><span data-l="fr">Réponses réelles du modèle (mistral-large-4), enregistrées pendant l’évaluation : aucun appel n’est fait depuis cette page.</span><span data-l="en" lang="en">Real model answers (mistral-large-4) recorded during the evaluation, translated from French: this page makes no live call.</span></p>
+</div>
+      
+      <div class="limites"><strong><span data-l="fr">Ce que l’étude ne permet pas de conclure</span><span data-l="en" lang="en">What this study cannot conclude</span></strong><p data-l="fr">40 questions et un seul modèle testé : assez pour comparer deux approches, pas pour classer des modèles. Seules les réponses contestées ont été relues. Le livret de l’IFAB n’est pas publié (droits de l’IFAB).</p><p data-l="en" lang="en">40 questions and a single model: enough to compare two approaches, not to rank models. Only disputed answers were reviewed. The IFAB booklet is not published (IFAB rights).</p></div>
+    </div>
+  </details>
+  <div class="pied-projet"><div class="chips"><span class="chip" data-l="fr">Python</span><span class="chip" data-l="en" lang="en">Python</span><span class="chip" data-l="fr">pypdf</span><span class="chip" data-l="en" lang="en">pypdf</span><span class="chip" data-l="fr">BM25</span><span class="chip" data-l="en" lang="en">BM25</span><span class="chip" data-l="fr">API Mistral</span><span class="chip" data-l="en" lang="en">API Mistral</span><span class="chip" data-l="fr">unittest</span><span class="chip" data-l="en" lang="en">unittest</span></div><div class="liens"><a href="https://github.com/Julie-Landrevie/lois-du-jeu-ia" target="_blank" rel="noopener"><span data-l="fr">Code et méthode ↗</span><span data-l="en" lang="en">Code and method ↗</span></a><a href="https://github.com/Julie-Landrevie/lois-du-jeu-ia/blob/main/outputs/comparaison.md" target="_blank" rel="noopener"><span data-l="fr">Comparaison des versions ↗</span><span data-l="en" lang="en">Version comparison ↗</span></a></div></div>
+</article>
+<article class="projet" id="video" data-portes="performance" data-o-performance="3" data-o-tout="4">
+  <div class="projet-tete">
+    <span class="kicker">2025</span>
+    <h3><span data-l="fr">Analyse vidéo : codage de matchs et rapports</span><span data-l="en" lang="en">Video analysis: match coding and reports</span></h3>
+    <p class="question"><span data-l="fr">Que révèle le codage d’une finale, point par point ?</span><span data-l="en" lang="en">What does coding a final, point by point, reveal?</span></p>
+  </div>
+  <div class="figs"><div class="fig"><b><span class="n" data-l="fr">151</span><span class="n" data-l="en" lang="en">151</span></b><span data-l="fr">points codés sur la finale des Championnats de France 2025 de tennis de table</span><span data-l="en" lang="en">points coded in the 2025 French table tennis championship final</span></div><div class="fig"><b><span class="n" data-l="fr">62 %</span><span class="n" data-l="en" lang="en">62%</span></b><span data-l="fr">des points du vainqueur gagnés en coup droit, 91 % au 7e set</span><span data-l="en" lang="en">of the winner’s points won on the forehand, 91% in the 7th set</span></div><div class="fig"><b><span class="n" data-l="fr">0</span><span class="n" data-l="en" lang="en">0</span></b><span data-l="fr">point gagné par le perdant quand il sert long dans le coup droit adverse</span><span data-l="en" lang="en">points won by the loser when serving long to the opponent’s forehand</span></div></div>
+  <details>
+    <summary><span data-l="fr">Voir l’étude</span><span data-l="en" lang="en">Read the study</span></summary>
+    <div class="etude">
+      <div data-l="fr"><p>Diplôme universitaire de l’Université de Lorraine. Football : finale de la Supercoupe d’Espagne, panneau de codage sur mesure, zones de récupération, profil individuel du gardien et plan d’entraînement en quatre blocs.</p><p>Tennis de table : grille de codage propre au sport (longueur des points, coup final, service, fautes, points de pression), rapport par set et par joueur, mesure d’angle des appuis (108,5°) et plan d’entraînement sur le retour du service long.</p></div><div data-l="en" lang="en"><p>University diploma, Université de Lorraine. Football: Spanish Super Cup final, custom coding panel, ball-recovery zones, goalkeeper profile and a four-block training plan.</p><p>Table tennis: sport-specific coding grid (rally length, final shot, serve, errors, pressure points), report by set and player, stance-angle measurement (108.5°) and a training plan on returning long serves.</p></div>
+      
+      <figure><img src="assets/tt_stats.webp" alt="Statistiques issues du codage de la finale." loading="lazy" width="1200"><figcaption><span data-l="fr">Statistiques issues du codage de la finale.</span><span data-l="en" lang="en">Statistics from coding the final (in French).</span></figcaption></figure>
+      <div class="limites"><strong><span data-l="fr">Ce que l’étude ne permet pas de conclure</span><span data-l="en" lang="en">What this study cannot conclude</span></strong><p data-l="fr">Une seule finale par sport, à partir d’images de télévision : des constats pour préparer une séance, pas des tendances générales.</p><p data-l="en" lang="en">One final per sport, from broadcast footage: findings to prepare a session, not general trends.</p></div>
+    </div>
+  </details>
+  <div class="pied-projet"><div class="chips"><span class="chip" data-l="fr">Dartfish (certifiée)</span><span class="chip" data-l="en" lang="en">Dartfish (certified)</span><span class="chip" data-l="fr">Once Sport (certifiée)</span><span class="chip" data-l="en" lang="en">Once Sport (certified)</span><span class="chip" data-l="fr">Panneau de codage</span><span class="chip" data-l="en" lang="en">Coding panel</span></div><div class="liens"><a href="https://youtu.be/QwjbEjAHlig" target="_blank" rel="noopener"><span data-l="fr">Extrait vidéo ↗</span><span data-l="en" lang="en">Video excerpt ↗</span></a></div></div>
+</article>
+<article class="projet" id="tracking" data-portes="performance data-ia" data-o-performance="4" data-o-data-ia="5" data-o-tout="5">
+  <div class="projet-tete">
+    <span class="kicker">2026</span>
+    <h3><span data-l="fr">Intensité physique et données de tracking</span><span data-l="en" lang="en">Physical intensity from tracking data</span></h3>
+    <p class="question"><span data-l="fr">Une vitesse mesurée est-elle physiquement possible avant d’être interprétée ?</span><span data-l="en" lang="en">Is a measured speed physically possible before we interpret it?</span></p>
+  </div>
+  <div class="figs"><div class="fig"><b><span class="n" data-l="fr">25</span><span class="n" data-l="en" lang="en">25</span></b><span data-l="fr">images par seconde de tracking optique (Metrica Sports)</span><span data-l="en" lang="en">frames per second of optical tracking (Metrica Sports)</span></div><div class="fig"><b><span class="n" data-l="fr">3</span><span class="n" data-l="en" lang="en">3</span></b><span data-l="fr">filtres de cohérence : sauts de position, vitesses au-delà de 36 km/h, pics isolés non confirmés</span><span data-l="en" lang="en">plausibility filters: position jumps, speeds above 36 km/h, unconfirmed isolated peaks</span></div><div class="fig"><b><span class="n" data-l="fr">10</span><span class="n" data-l="en" lang="en">10</span></b><span data-l="fr">matchs de données SkillCorner pour le contexte tactique</span><span data-l="en" lang="en">matches of SkillCorner data for tactical context</span></div></div>
+  <details>
+    <summary><span data-l="fr">Voir l’étude</span><span data-l="en" lang="en">Read the study</span></summary>
+    <div class="etude">
+      <div data-l="fr"><p>Distance réelle, vitesse maximale et zones d’intensité par joueur, à partir de deux sources ouvertes, avec des filtres documentés.</p></div><div data-l="en" lang="en"><p>Distance, top speed and intensity zones per player from two open sources, with documented filters.</p></div>
+      
+      
+      <div class="limites"><strong><span data-l="fr">Ce que l’étude ne permet pas de conclure</span><span data-l="en" lang="en">What this study cannot conclude</span></strong><p data-l="fr">Données ouvertes de quelques matchs : une méthode à valider sur une saison complète.</p><p data-l="en" lang="en">Open data from a few matches: a method to validate on a full season.</p></div>
+    </div>
+  </details>
+  <div class="pied-projet"><div class="chips"><span class="chip" data-l="fr">Python</span><span class="chip" data-l="en" lang="en">Python</span><span class="chip" data-l="fr">pandas</span><span class="chip" data-l="en" lang="en">pandas</span><span class="chip" data-l="fr">Plotly</span><span class="chip" data-l="en" lang="en">Plotly</span><span class="chip" data-l="fr">Streamlit</span><span class="chip" data-l="en" lang="en">Streamlit</span></div><div class="liens"><a href="https://physical-tracking.streamlit.app" target="_blank" rel="noopener"><span data-l="fr">Application ↗</span><span data-l="en" lang="en">App ↗</span></a><a href="https://github.com/Julie-Landrevie/physical-tracking" target="_blank" rel="noopener"><span data-l="fr">Code ↗</span><span data-l="en" lang="en">Code ↗</span></a></div></div>
+</article>
+<article class="projet" id="scoutpro" data-portes="performance" data-o-performance="5" data-o-tout="6">
+  <div class="projet-tete">
+    <span class="kicker">2026</span>
+    <h3><span data-l="fr">ScoutPro : profils de joueuses et joueurs pour le recrutement</span><span data-l="en" lang="en">ScoutPro: player profiles for recruitment</span></h3>
+    <p class="question"><span data-l="fr">Comment comparer deux profils sans comparer un latéral à un attaquant ?</span><span data-l="en" lang="en">How do you compare two profiles without comparing a full-back to a striker?</span></p>
+  </div>
+  <div class="figs"><div class="fig"><b><span class="n" data-l="fr">6 343</span><span class="n" data-l="en" lang="en">6,343</span></b><span data-l="fr">joueuses et joueurs StatsBomb, percentiles calculés par poste</span><span data-l="en" lang="en">players from StatsBomb data, percentiles computed within position</span></div></div>
+  <details>
+    <summary><span data-l="fr">Voir l’étude</span><span data-l="en" lang="en">Read the study</span></summary>
+    <div class="etude">
+      <div data-l="fr"><p>Fiches individuelles, profils comparés côte à côte et rapport de scouting.</p></div><div data-l="en" lang="en"><p>Individual profiles, side-by-side comparisons and a scouting report.</p></div>
+      
+      
+      <div class="limites"><strong><span data-l="fr">Ce que l’étude ne permet pas de conclure</span><span data-l="en" lang="en">What this study cannot conclude</span></strong><p data-l="fr">Données d’événements ouvertes : les compétitions couvertes dépendent de ce que StatsBomb publie.</p><p data-l="en" lang="en">Open event data: coverage depends on what StatsBomb publishes.</p></div>
+    </div>
+  </details>
+  <div class="pied-projet"><div class="chips"><span class="chip" data-l="fr">Python</span><span class="chip" data-l="en" lang="en">Python</span><span class="chip" data-l="fr">pandas</span><span class="chip" data-l="en" lang="en">pandas</span><span class="chip" data-l="fr">Streamlit</span><span class="chip" data-l="en" lang="en">Streamlit</span><span class="chip" data-l="fr">StatsBomb Open Data</span><span class="chip" data-l="en" lang="en">StatsBomb Open Data</span></div><div class="liens"><a href="https://scoutpro-football.streamlit.app" target="_blank" rel="noopener"><span data-l="fr">Application ↗</span><span data-l="en" lang="en">App ↗</span></a><a href="https://github.com/Julie-Landrevie/scoutpro-football" target="_blank" rel="noopener"><span data-l="fr">Code ↗</span><span data-l="en" lang="en">Code ↗</span></a></div></div>
+</article>
+<article class="projet" id="mpg" data-portes="data-ia" data-o-data-ia="3" data-o-tout="7">
+  <div class="projet-tete">
+    <span class="kicker">2026</span>
+    <h3><span data-l="fr">MPG Optimizer : collecte automatisée et optimisation</span><span data-l="en" lang="en">MPG Optimizer: automated collection and optimisation</span></h3>
+    <p class="question"><span data-l="fr">Peut-on composer la meilleure équipe sous contrainte de budget à partir de données croisées ?</span><span data-l="en" lang="en">Can we pick the best team under a budget constraint from cross-referenced data?</span></p>
+  </div>
+  <div class="figs"><div class="fig"><b><span class="n" data-l="fr">520</span><span class="n" data-l="en" lang="en">520</span></b><span data-l="fr">joueurs croisés entre l’API MPG et FBref, collecte horaire</span><span data-l="en" lang="en">players matched between the MPG API and FBref, hourly collection</span></div><div class="fig"><b><span class="n" data-l="fr">0,49</span><span class="n" data-l="en" lang="en">0.49</span></b><span data-l="fr">corrélation entre buts + passes décisives et note MPG</span><span data-l="en" lang="en">correlation between goals + assists and MPG rating</span></div><div class="fig"><b><span class="n" data-l="fr">28</span><span class="n" data-l="en" lang="en">28</span></b><span data-l="fr">tests unitaires</span><span data-l="en" lang="en">unit tests</span></div></div>
+  <details>
+    <summary><span data-l="fr">Voir l’étude</span><span data-l="en" lang="en">Read the study</span></summary>
+    <div class="etude">
+      <div data-l="fr"><p>Collecte horaire via l’API MPG, croisement avec FBref, programmation linéaire (PuLP) pour composer l’équipe.</p></div><div data-l="en" lang="en"><p>Hourly collection through the MPG API, matching with FBref, linear programming (PuLP) to pick the team.</p></div>
+      
+      
+      <div class="limites"><strong><span data-l="fr">Ce que l’étude ne permet pas de conclure</span><span data-l="en" lang="en">What this study cannot conclude</span></strong><p data-l="fr">Une note de jeu fantasy n’est pas une mesure de performance : l’outil optimise la note, pas le jeu.</p><p data-l="en" lang="en">A fantasy rating is not a performance measure: the tool optimises the rating, not the game.</p></div>
+    </div>
+  </details>
+  <div class="pied-projet"><div class="chips"><span class="chip" data-l="fr">Python</span><span class="chip" data-l="en" lang="en">Python</span><span class="chip" data-l="fr">API</span><span class="chip" data-l="en" lang="en">API</span><span class="chip" data-l="fr">PuLP</span><span class="chip" data-l="en" lang="en">PuLP</span><span class="chip" data-l="fr">Streamlit</span><span class="chip" data-l="en" lang="en">Streamlit</span><span class="chip" data-l="fr">unittest</span><span class="chip" data-l="en" lang="en">unittest</span></div><div class="liens"><a href="https://mpg-optimizer.streamlit.app" target="_blank" rel="noopener"><span data-l="fr">Application ↗</span><span data-l="en" lang="en">App ↗</span></a><a href="https://github.com/Julie-Landrevie/mpg-optimizer" target="_blank" rel="noopener"><span data-l="fr">Code ↗</span><span data-l="en" lang="en">Code ↗</span></a></div></div>
+</article>
+<article class="projet" id="wc" data-portes="data-ia" data-o-data-ia="6" data-o-tout="8">
+  <div class="projet-tete">
+    <span class="kicker">2026</span>
+    <h3><span data-l="fr">World Cup 2026 Predictor : modèle de Poisson</span><span data-l="en" lang="en">World Cup 2026 Predictor: Poisson model</span></h3>
+    <p class="question"><span data-l="fr">Un modèle simple fait-il mieux que les cotes des bookmakers ?</span><span data-l="en" lang="en">Does a simple model do better than the bookmakers’ odds?</span></p>
+  </div>
+  <div class="figs"><div class="fig"><b><span class="n" data-l="fr">8 000</span><span class="n" data-l="en" lang="en">8,000</span></b><span data-l="fr">matchs environ pour calibrer le modèle, combiné aux cotes et au classement FIFA</span><span data-l="en" lang="en">matches (approx.) to calibrate the model, combined with odds and FIFA ranking</span></div><div class="fig"><b><span class="n" data-l="fr">2 000</span><span class="n" data-l="en" lang="en">2,000</span></b><span data-l="fr">simulations du tournoi</span><span data-l="en" lang="en">tournament simulations</span></div><div class="fig"><b><span class="n" data-l="fr">24,8 %</span><span class="n" data-l="en" lang="en">24.8%</span></b><span data-l="fr">de chances de titre pour l’Espagne selon le modèle, contre 16,5 % chez les bookmakers</span><span data-l="en" lang="en">title chance for Spain according to the model, vs 16.5% for bookmakers</span></div></div>
+  <details>
+    <summary><span data-l="fr">Voir l’étude</span><span data-l="en" lang="en">Read the study</span></summary>
+    <div class="etude">
+      <div data-l="fr"><p>L’Espagne, favorite du modèle, a remporté le tournoi, et les quatre favoris ont atteint les demi-finales.</p></div><div data-l="en" lang="en"><p>Spain, the model’s favourite, won the tournament, and the four favourites reached the semi-finals.</p></div>
+      
+      
+      <div class="limites"><strong><span data-l="fr">Ce que l’étude ne permet pas de conclure</span><span data-l="en" lang="en">What this study cannot conclude</span></strong><p data-l="fr">Un seul tournoi : un bon pronostic peut être de la chance. Il faudrait plusieurs compétitions pour juger le modèle.</p><p data-l="en" lang="en">A single tournament: a good forecast can be luck. Several competitions would be needed to judge the model.</p></div>
+    </div>
+  </details>
+  <div class="pied-projet"><div class="chips"><span class="chip" data-l="fr">Python</span><span class="chip" data-l="en" lang="en">Python</span><span class="chip" data-l="fr">pandas</span><span class="chip" data-l="en" lang="en">pandas</span><span class="chip" data-l="fr">SciPy</span><span class="chip" data-l="en" lang="en">SciPy</span><span class="chip" data-l="fr">Streamlit</span><span class="chip" data-l="en" lang="en">Streamlit</span></div><div class="liens"><a href="https://worldcup-2026-predictor.streamlit.app" target="_blank" rel="noopener"><span data-l="fr">Application ↗</span><span data-l="en" lang="en">App ↗</span></a><a href="https://github.com/Julie-Landrevie/world-cup-predictor" target="_blank" rel="noopener"><span data-l="fr">Code ↗</span><span data-l="en" lang="en">Code ↗</span></a></div></div>
+</article></div>
+  <div class="mini-grille-wrap">
+    <div class="mini-grille"><article class="mini"><h4><span data-l="fr">Pass Network</span><span data-l="en" lang="en">Pass Network</span></h4><p data-l="fr">Structure d’équipe par les réseaux de passes, joueurs-pivots par centralité ; 18 tests.</p><p data-l="en" lang="en">Team structure through passing networks, key players by centrality; 18 tests.</p><a href="https://pass-network.streamlit.app" target="_blank" rel="noopener"><span data-l="fr">Application ↗</span><span data-l="en" lang="en">App ↗</span></a></article><article class="mini"><h4><span data-l="fr">Tactical Dashboard</span><span data-l="en" lang="en">Tactical Dashboard</span></h4><p data-l="fr">Réseau de passes, xG, pressing et heatmaps pour tout match StatsBomb Open Data.</p><p data-l="en" lang="en">Passing network, xG, pressing and heatmaps for any StatsBomb Open Data match.</p><a href="https://tactical-dashboard-football.streamlit.app" target="_blank" rel="noopener"><span data-l="fr">Application ↗</span><span data-l="en" lang="en">App ↗</span></a></article><article class="mini"><h4><span data-l="fr">xG & profils de tir</span><span data-l="en" lang="en">xG & shooting profiles</span></h4><p data-l="fr">839 tirs, 111 buts ; surperformance de Messi +7,1, sur 35 matchs du Barça seulement.</p><p data-l="en" lang="en">839 shots, 111 goals; Messi +7.1 over-performance, on 35 Barça matches only.</p><a href="https://xg-shooting-analysis.streamlit.app" target="_blank" rel="noopener"><span data-l="fr">Application ↗</span><span data-l="en" lang="en">App ↗</span></a></article></div>
+  </div>
+</div></section>
+
+<section id="nuls"><div class="wrap">
+  <h2><span data-l="fr">Ce qui n’a rien donné, et que je publie quand même</span><span data-l="en">What found nothing, and I publish anyway</span></h2>
+  <p class="intro-section"><span data-l="fr">Un résultat nul évite de vendre un indicateur qui ne marche pas.</span><span data-l="en">A null result keeps me from selling an indicator that doesn’t work.</span></p>
+  <ul class="nuls"><li><a class="nul-lien" href="#charge"><strong><span data-l="fr">Le wellness n’anticipe pas les blessures déclarées</span><span data-l="en" lang="en">Wellness does not anticipate reported injuries</span></strong></a><p data-l="fr">Sur 155 épisodes, l’ACWR médian monte à peine avant la déclaration (≈ 0,95 → 1,07) et le wellness ne baisse pas. Je ne vends pas de « prédiction des blessures ».</p><p data-l="en" lang="en">Across 155 episodes, the median ACWR barely rises before the report (≈ 0.95 → 1.07) and wellness does not drop. I do not sell “injury prediction”.</p></li><li><a class="nul-lien" href="#lois"><strong><span data-l="fr">Le juge automatique s’est trompé 3 fois sur 3</span><span data-l="en" lang="en">The automatic judge was wrong 3 times out of 3</span></strong></a><p data-l="fr">Les trois réponses qu’il jugeait fausses étaient justes ; l’une révélait même une erreur dans la réponse de référence.</p><p data-l="en" lang="en">The three answers it marked wrong were right; one even revealed an error in the reference answer.</p></li><li><a class="nul-lien" href="#vestiaire"><strong><span data-l="fr">Les seuils féminins changent peu le classement</span><span data-l="en" lang="en">Women’s thresholds barely change the ranking</span></strong></a><p data-l="fr">Corrélation de rang de 0,96 : le gain est dans le profil de chaque joueuse, pas dans la hiérarchie de l’effectif.</p><p data-l="en" lang="en">Rank correlation of 0.96: the gain is in each player’s profile, not in the squad hierarchy.</p></li><li><a class="nul-lien" href="#charge"><strong><span data-l="fr">La charge ressentie seule rate les pics GPS</span><span data-l="en" lang="en">Perceived load alone misses GPS peaks</span></strong></a><p data-l="fr">Dans 92 % des pics de course à haute intensité, l’ACWR sur la charge ressentie reste sous le seuil.</p><p data-l="en" lang="en">In 92% of high-speed running peaks, the perceived-load ACWR stays below the threshold.</p></li></ul>
+</div></section>
+
+<section id="preuves"><div class="wrap">
+  <h2><span data-l="fr">Registre des preuves</span><span data-l="en">Evidence register</span></h2>
+  <p class="intro-section"><span data-l="fr">Chaque chiffre clé renvoie au fichier qui le produit, dans un dépôt public.</span><span data-l="en">Each key number links to the file that produces it, in a public repository.</span></p>
+  <div class="table-wrap"><table>
+    <thead><tr><th><span data-l="fr">Chiffre</span><span data-l="en">Number</span></th><th><span data-l="fr">Ce qu’il mesure</span><span data-l="en">What it measures</span></th><th><span data-l="fr">Projet</span><span data-l="en">Project</span></th><th><span data-l="fr">Source</span><span data-l="en">Source</span></th></tr></thead>
+    <tbody><tr><td class="num"><span class="n" data-l="fr">22 % → 0</span><span class="n" data-l="en" lang="en">22% → 0</span></td><td><span data-l="fr">réponses fausses sans / avec le livret</span><span data-l="en" lang="en">wrong answers without / with the booklet</span></td><td><a href="#lois">lois</a></td><td><a href="https://github.com/Julie-Landrevie/lois-du-jeu-ia/blob/main/outputs/comparaison.md" target="_blank" rel="noopener">outputs/comparaison.md ↗</a></td></tr><tr><td class="num"><span class="n" data-l="fr">94 %</span><span class="n" data-l="en" lang="en">94%</span></td><td><span data-l="fr">réponses exactes, version 2</span><span data-l="en" lang="en">correct answers, version 2</span></td><td><a href="#lois">lois</a></td><td><a href="https://github.com/Julie-Landrevie/lois-du-jeu-ia/blob/main/outputs/comparaison.md" target="_blank" rel="noopener">outputs/comparaison.md ↗</a></td></tr><tr><td class="num"><span class="n" data-l="fr">98 %</span><span class="n" data-l="en" lang="en">98%</span></td><td><span data-l="fr">ACWR recalculé fidèle à la source</span><span data-l="en" lang="en">recomputed ACWR matches the source</span></td><td><a href="#charge">charge</a></td><td><a href="https://github.com/Julie-Landrevie/womens-football-load-monitoring#résultats-sur-soccermon-50-joueuses-2-équipes-20202021" target="_blank" rel="noopener">README, Résultats ↗</a></td></tr><tr><td class="num"><span class="n" data-l="fr">13–16</span><span class="n" data-l="en" lang="en">13–16</span></td><td><span data-l="fr">épisodes d’alerte par joueuse et par an</span><span data-l="en" lang="en">alert episodes per player per year</span></td><td><a href="#charge">charge</a></td><td><a href="https://github.com/Julie-Landrevie/womens-football-load-monitoring#résultats-sur-soccermon-50-joueuses-2-équipes-20202021" target="_blank" rel="noopener">README, Résultats ↗</a></td></tr><tr><td class="num"><span class="n" data-l="fr">43 → 15 %</span><span class="n" data-l="en" lang="en">43 → 15%</span></td><td><span data-l="fr">séances de match sans sprint</span><span data-l="en" lang="en">match sessions with no sprint</span></td><td><a href="#vestiaire">vestiaire</a></td><td><a href="https://github.com/Julie-Landrevie/vestiaire-metrics#résultats-sur-soccermon" target="_blank" rel="noopener">README, Résultats ↗</a></td></tr><tr><td class="num"><span class="n" data-l="fr">0,96</span><span class="n" data-l="en" lang="en">0.96</span></td><td><span data-l="fr">corrélation de rang entre seuils</span><span data-l="en" lang="en">rank correlation between thresholds</span></td><td><a href="#vestiaire">vestiaire</a></td><td><a href="https://github.com/Julie-Landrevie/vestiaire-metrics#résultats-sur-soccermon" target="_blank" rel="noopener">README, Résultats ↗</a></td></tr><tr><td class="num"><span class="n" data-l="fr">520</span><span class="n" data-l="en" lang="en">520</span></td><td><span data-l="fr">joueurs croisés MPG × FBref</span><span data-l="en" lang="en">players matched MPG × FBref</span></td><td><a href="#mpg">mpg</a></td><td><a href="https://github.com/Julie-Landrevie/mpg-optimizer" target="_blank" rel="noopener">README ↗</a></td></tr><tr><td class="num"><span class="n" data-l="fr">24,8 %</span><span class="n" data-l="en" lang="en">24.8%</span></td><td><span data-l="fr">chances de titre de l’Espagne selon le modèle</span><span data-l="en" lang="en">Spain’s title chance per the model</span></td><td><a href="#wc">wc</a></td><td><a href="https://github.com/Julie-Landrevie/world-cup-predictor" target="_blank" rel="noopener">README ↗</a></td></tr></tbody>
+  </table></div>
+</div></section>
+
+<section id="parcours"><div class="wrap">
+  <h2><span data-l="fr">Parcours</span><span data-l="en">Background</span></h2>
+  <div class="parcours">
+    <div>
+      <h3><span data-l="fr">Expérience</span><span data-l="en">Experience</span></h3>
+      <ul><li><strong><span data-l="fr">Consultante data — cabinet de conseil (CDI)</span><span data-l="en" lang="en">Data consultant — consulting firm (permanent)</span></strong> <span class="date">2022 – <span data-l="fr">aujourd’hui</span><span data-l="en" lang="en">present</span></span><p data-l="fr">Indicateurs, tableaux de bord d’aide à la décision (SQL, Power BI) pour des équipes non techniques ; mission pour le Comité d’Organisation des Jeux Olympiques Paris 2024.</p><p data-l="en" lang="en">KPIs and decision dashboards (SQL, Power BI) for non-technical teams; assignment for the Paris 2024 Olympic Organising Committee.</p></li><li><strong><span data-l="fr">Joueuse et coach de football féminin — France et Canada</span><span data-l="en" lang="en">Women’s football player and coach — France and Canada</span></strong> <span class="date">2008 – <span data-l="fr">aujourd’hui</span><span data-l="en" lang="en">present</span></span><p data-l="fr">Plus de 10 ans de compétition et coaching d’équipes universitaires féminines.</p><p data-l="en" lang="en">10+ years of competitive play and coaching university women’s teams.</p></li></ul>
+      <h3 style="margin-top:26px"><span data-l="fr">Formation</span><span data-l="en">Education</span></h3>
+      <ul><li><span class="date">2025</span> <span data-l="fr">DU Expertiser la performance sportive par l’analyse vidéo et le sport data science, Université de Lorraine</span><span data-l="en" lang="en">University diploma in video analysis and sport data science, Université de Lorraine</span></li><li><span class="date">2024</span> <span data-l="fr">Sports Analytics, Université du Michigan (Coursera)</span><span data-l="en" lang="en">Sports Analytics, University of Michigan (Coursera)</span></li><li><span class="date">2022</span> <span data-l="fr">Ingénieure ENTPE, double diplôme Polytechnique Montréal</span><span data-l="en" lang="en">Engineering degree, ENTPE, double degree with Polytechnique Montréal</span></li></ul>
+    </div>
+    <div>
+      <h3><span data-l="fr">Outils</span><span data-l="en">Tools</span></h3>
+      <ul><li><span data-l="fr">Python (pandas, NumPy, SciPy, Streamlit, mplsoccer), SQL</span><span data-l="en" lang="en">Python (pandas, NumPy, SciPy, Streamlit, mplsoccer), SQL</span></li><li><span data-l="fr">R (tidyverse, arrow, ggplot2, R Markdown)</span><span data-l="en" lang="en">R (tidyverse, arrow, ggplot2, R Markdown)</span></li><li><span data-l="fr">IA générative : RAG, API de modèles de langage, évaluation</span><span data-l="en" lang="en">Generative AI: RAG, language-model APIs, evaluation</span></li><li><span data-l="fr">Power BI, Git, tests unitaires</span><span data-l="en" lang="en">Power BI, Git, unit tests</span></li><li><span data-l="fr">Dartfish et Once Sport (certifiée)</span><span data-l="en" lang="en">Dartfish and Once Sport (certified)</span></li></ul>
+      <h3 style="margin-top:26px"><span data-l="fr">Langues</span><span data-l="en">Languages</span></h3>
+      <ul><li><span data-l="fr">Français, langue maternelle</span><span data-l="en" lang="en">French, native</span></li><li><span data-l="fr">Anglais C1 (TOEIC 895)</span><span data-l="en" lang="en">English C1 (TOEIC 895)</span></li><li><span data-l="fr">Espagnol B2</span><span data-l="en" lang="en">Spanish B2</span></li></ul>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <span><span data-l="fr">Données ouvertes : SoccerMon (Midoglu et al., 2024), StatsBomb, SkillCorner, Metrica Sports. Seuils féminins : SkillCorner. Lois du Jeu : IFAB.</span><span data-l="en">Open data: SoccerMon (Midoglu et al., 2024), StatsBomb, SkillCorner, Metrica Sports. Women’s thresholds: SkillCorner. Laws of the Game: IFAB.</span></span>
+  <span class="signature"><span><b>Julie Landrevie</b>Data &amp; performance football</span><span class="mono" aria-hidden="true">JL</span></span>
+</div></footer>
+
+<dialog id="glossaire" aria-labelledby="g-titre">
+  <div class="g-tete"><h2 id="g-titre"><span data-l="fr">Glossaire</span><span data-l="en">Glossary</span></h2>
+    <button class="btn" type="button" id="fermer-glossaire"><span data-l="fr">Fermer</span><span data-l="en">Close</span></button></div>
+  <dl><div class="g-item"><dt>ACWR</dt><dd><span data-l="fr">Rapport entre la charge des 7 derniers jours et celle des 28 derniers. Un repère de progressivité, pas un prédicteur de blessure.</span><span data-l="en" lang="en">Ratio of the last 7 days’ load to the last 28 days’. A guide to progression, not an injury predictor.</span></dd></div><div class="g-item"><dt>EWMA</dt><dd><span data-l="fr">Moyenne mobile qui donne plus de poids aux jours récents ; utilisée pour lisser la charge aiguë et chronique.</span><span data-l="en" lang="en">Moving average giving more weight to recent days; used to smooth acute and chronic load.</span></dd></div><div class="g-item"><dt>sRPE</dt><dd><span data-l="fr">Charge ressentie : effort perçu sur 10 multiplié par la durée de la séance en minutes.</span><span data-l="en" lang="en">Session RPE: perceived effort out of 10 times session duration in minutes.</span></dd></div><div class="g-item"><dt>Wellness</dt><dd><span data-l="fr">Questionnaire quotidien (fatigue, sommeil, douleurs, stress, humeur), comparé à la moyenne habituelle de chaque joueuse.</span><span data-l="en" lang="en">Daily questionnaire (fatigue, sleep, soreness, stress, mood), compared with each player’s usual level.</span></dd></div><div class="g-item"><dt>Monotonie</dt><dd><span data-l="fr">Charge moyenne de la semaine divisée par sa variabilité : une semaine sans variation est monotone.</span><span data-l="en" lang="en">Weekly mean load divided by its variability: a week with no variation is monotonous.</span></dd></div><div class="g-item"><dt>Épisode d’alerte</dt><dd><span data-l="fr">Jours d’alerte consécutifs regroupés en un seul signal, pour qu’un staff lise un épisode et non dix jours.</span><span data-l="en" lang="en">Consecutive alert days grouped into one signal, so a staff reads one episode, not ten days.</span></dd></div><div class="g-item"><dt>Seuils féminins</dt><dd><span data-l="fr">Vitesses et accélérations adaptées aux joueuses (sprint au-delà de 23 km/h chez SkillCorner, contre 25 km/h chez les hommes).</span><span data-l="en" lang="en">Speed and acceleration thresholds fitted to female players (sprint above 23 km/h for SkillCorner, vs 25 km/h for men).</span></dd></div><div class="g-item"><dt>Percentile</dt><dd><span data-l="fr">Rang sur 100 : au 71e percentile, une joueuse fait mieux que 71 % du groupe.</span><span data-l="en" lang="en">Rank out of 100: at the 71st percentile a player does better than 71% of the group.</span></dd></div><div class="g-item"><dt>Corrélation de rang</dt><dd><span data-l="fr">Mesure si deux classements se ressemblent : 1 = identiques, 0 = sans lien.</span><span data-l="en" lang="en">Measures how similar two rankings are: 1 = identical, 0 = unrelated.</span></dd></div><div class="g-item"><dt>RAG</dt><dd><span data-l="fr">Génération augmentée par recherche : on cherche d’abord les passages utiles d’un document, puis le modèle répond à partir de ces passages.</span><span data-l="en" lang="en">Retrieval-augmented generation: first retrieve the useful passages of a document, then the model answers from them.</span></dd></div><div class="g-item"><dt>BM25</dt><dd><span data-l="fr">Méthode de recherche par mots-clés qui pondère chaque mot selon sa rareté ; simple et explicable.</span><span data-l="en" lang="en">Keyword search that weights each word by its rarity; simple and explainable.</span></dd></div><div class="g-item"><dt>Rappel de la recherche</dt><dd><span data-l="fr">Part des questions pour lesquelles le bon passage figure parmi ceux retrouvés.</span><span data-l="en" lang="en">Share of questions where the right passage is among those retrieved.</span></dd></div><div class="g-item"><dt>Juge automatique</dt><dd><span data-l="fr">Second appel à un modèle de langage pour noter une réponse ; utile à grande échelle, à contrôler par relecture.</span><span data-l="en" lang="en">A second language-model call that grades an answer; useful at scale, to be checked by review.</span></dd></div><div class="g-item"><dt>xG</dt><dd><span data-l="fr">Buts attendus : probabilité qu’un tir devienne un but, selon sa position et sa situation.</span><span data-l="en" lang="en">Expected goals: probability that a shot becomes a goal, given its position and situation.</span></dd></div><div class="g-item"><dt>Modèle de Poisson</dt><dd><span data-l="fr">Modèle qui estime la probabilité de marquer 0, 1, 2… buts à partir de la force des équipes.</span><span data-l="en" lang="en">Model estimating the probability of scoring 0, 1, 2… goals from team strength.</span></dd></div><div class="g-item"><dt>Tests unitaires</dt><dd><span data-l="fr">Petits programmes qui vérifient automatiquement que le code donne le résultat attendu.</span><span data-l="en" lang="en">Small programs that automatically check the code returns the expected result.</span></dd></div></dl>
+</dialog>
+
+<script>
+(function () {
+  var body = document.body, PORTES = ["performance", "data-ia"];
+  function lire(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function ecrire(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  // Langue : ?lang=en, sinon la préférence enregistrée, sinon la langue du navigateur.
+  function setLang(l) {
+    body.dataset.lang = l; document.documentElement.lang = l; ecrire("jl-lang", l);
+    document.querySelectorAll("[data-lang-btn]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.langBtn === l)); });
+    document.title = l === "en" ? "Julie Landrevie — Data, performance and AI applied to football" : "Julie Landrevie — Data, performance et IA appliquées au football";
+  }
+  var q = new URLSearchParams(location.search).get("lang");
+  setLang(q === "en" || q === "fr" ? q : (lire("jl-lang") || "fr"));
+  document.querySelectorAll("[data-lang-btn]").forEach(function (b) { b.addEventListener("click", function () { setLang(b.dataset.langBtn); }); });
+
+  // Portes d'entrée : #performance, #data-ia (liens à donner dans une candidature).
+  var liste = document.getElementById("liste");
+  function setPorte(p) {
+    body.dataset.porte = p;
+    document.querySelectorAll("[data-filtre]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.filtre === p)); });
+    document.querySelectorAll(".porte").forEach(function (a) { a.setAttribute("aria-current", String(a.dataset.porte === p)); });
+    var cartes = Array.prototype.slice.call(liste.querySelectorAll(".projet"));
+    cartes.forEach(function (c) { c.hidden = p !== "tout" && c.dataset.portes.split(" ").indexOf(p) < 0; });
+    cartes.sort(function (a, b) { return (+a.getAttribute("data-o-" + p) || 99) - (+b.getAttribute("data-o-" + p) || 99); })
+          .forEach(function (c) { liste.appendChild(c); });
+  }
+  function lireHash(defiler) {
+    var h = decodeURIComponent(location.hash.slice(1));
+    if (PORTES.indexOf(h) >= 0) { setPorte(h); if (defiler) document.getElementById("projets").scrollIntoView(); return; }
+    var cible = h && document.getElementById(h);
+    if (cible && cible.classList.contains("projet")) {
+      if (cible.hidden) setPorte("tout");
+      var d = cible.querySelector("details"); if (d) d.open = true;
+      cible.scrollIntoView();
+    } else if (!h) setPorte("tout");
+  }
+  document.querySelectorAll("[data-filtre]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var p = b.dataset.filtre; setPorte(p);
+      history.replaceState(null, "", location.pathname + location.search + (p === "tout" ? "" : "#" + p));
+    });
+  });
+  window.addEventListener("hashchange", function () { lireHash(true); });
+  lireHash(PORTES.indexOf(location.hash.slice(1)) >= 0);
+
+  // Démo A-19 : seuils masculins / féminins.
+  document.querySelectorAll("#demo-a19 [data-seuil]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var f = b.dataset.seuil === "f";
+      document.querySelectorAll("#demo-a19 [data-seuil]").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+      document.querySelectorAll("#demo-a19 .a19-l").forEach(function (l) {
+        var actif = f ? l.dataset.f : l.dataset.h, autre = f ? l.dataset.h : l.dataset.f;
+        l.querySelector(".a19-pt").style.left = actif + "%";
+        l.querySelector(".a19-ref").style.left = autre + "%";
+        var n = +actif, suf = (n % 100 >= 10 && n % 100 <= 20) ? "th" : ({1: "st", 2: "nd", 3: "rd"}[n % 10] || "th");
+        l.querySelector('.a19-v [data-l="fr"]').textContent = n + "e";
+        l.querySelector('.a19-v [data-l="en"]').textContent = n + suf;
+      });
+    });
+  });
+
+  // Démo Lois du Jeu : onglets de questions.
+  document.querySelectorAll("#demo-lois [data-q]").forEach(function (b) {
+    if (b.tagName !== "BUTTON") return;
+    b.addEventListener("click", function () {
+      document.querySelectorAll("#demo-lois button[data-q]").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+      document.querySelectorAll("#demo-lois .q-panneau").forEach(function (p) { p.hidden = p.dataset.q !== b.dataset.q; });
+    });
+  });
+
+  // Glossaire.
+  var dlg = document.getElementById("glossaire");
+  document.getElementById("ouvrir-glossaire").addEventListener("click", function () { dlg.showModal(); });
+  document.getElementById("fermer-glossaire").addEventListener("click", function () { dlg.close(); });
+  dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+
+  // Copier l'adresse.
+  var bc = document.getElementById("copier");
+  bc.addEventListener("click", function () {
+    var mail = document.getElementById("mail").textContent;
+    function ok(t) { bc.querySelector('[data-l="fr"]').textContent = t[0]; bc.querySelector('[data-l="en"]').textContent = t[1]; }
+    function sel() { var r = document.createRange(); r.selectNodeContents(document.getElementById("mail")); var s = getSelection(); s.removeAllRanges(); s.addRange(r); ok(["Adresse sélectionnée", "Address selected"]); }
+    try { navigator.clipboard.writeText(mail).then(function () { ok(["Adresse copiée", "Address copied"]); }, sel); } catch (e) { sel(); }
+  });
+})();
+</script>
+</body>
+</html>

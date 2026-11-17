@@ -1,0 +1,47 @@
+{
+ "q25": {
+  "question": "Combien de temps le gardien peut-il garder le ballon en main, et quelle est la sanction s'il dépasse ce délai ?",
+  "ref": "8 secondes ; au-delà, un corner est accordé à l'équipe adverse.",
+  "loi": "12",
+  "sans": "Le gardien de but ne peut pas garder le ballon en main pendant plus de six secondes. Si ce délai est dépassé, l'arbitre accorde un corner à l'équipe adverse. [Loi 12]",
+  "sans_v": "faux",
+  "avec": "Le gardien de but peut conserver le ballon à la main pendant huit secondes maximum à l'intérieur de sa surface de réparation [Loi 12]. S'il dépasse ce délai, un corner est accordé à l'équipe adverse [Loi 12].",
+  "avec_v": "correct",
+  "court_fr": "Le gardien et le ballon",
+  "court_en": "Goalkeeper holding the ball",
+  "question_en": "How long can the goalkeeper hold the ball, and what is the sanction if they exceed it?",
+  "ref_en": "8 seconds; beyond that, a corner kick is awarded to the opposing team.",
+  "sans_en": "The goalkeeper may not hold the ball for more than six seconds. If this limit is exceeded, the referee awards a corner kick to the opposing team. [Law 12]",
+  "avec_en": "The goalkeeper may keep the ball in their hands for a maximum of eight seconds inside their penalty area [Law 12]. If they exceed this limit, a corner kick is awarded to the opposing team [Law 12]."
+ },
+ "q33": {
+  "question": "Que peut faire l'arbitre si une équipe tarde à effectuer une rentrée de touche ?",
+  "ref": "Lancer un décompte visuel de 5 secondes ; si la rentrée n'est pas effectuée à temps, elle est accordée à l'équipe adverse.",
+  "loi": "15",
+  "sans": "L'arbitre doit infliger un avertissement (carton jaune) au joueur qui retarde la reprise du jeu. Cette sanction s'applique pour comportement antisportif lorsqu'une équipe tarde à effectuer une rentrée de touche. [Loi 12]",
+  "sans_v": "faux",
+  "avec": "L’arbitre donne un coup de sifflet et signale le début d’un décompte visuel de cinq secondes, main levée [Loi 15]. Si la rentrée de touche n’est pas exécutée à la fin de ce décompte, elle est accordée à l’équipe adverse [Loi 15]. Le joueur fautif n’est averti que s’il retarde excessivement la reprise du jeu après que la rentrée a été accordée à l’adversaire [Loi 12][Loi 15].",
+  "avec_v": "correct",
+  "court_fr": "Rentrée de touche lente (2026/27)",
+  "court_en": "Slow throw-in (2026/27)",
+  "question_en": "What can the referee do if a team delays taking a throw-in?",
+  "ref_en": "Start a visual five-second count; if the throw-in is not taken in time, it is awarded to the opposing team.",
+  "sans_en": "The referee must caution (yellow card) the player who delays the restart of play. This sanction applies for unsporting behaviour when a team delays taking a throw-in. [Law 12]",
+  "avec_en": "The referee blows the whistle and signals the start of a visual five-second count with a raised hand [Law 15]. If the throw-in is not taken by the end of the count, it is awarded to the opposing team [Law 15]. The offending player is only cautioned if they excessively delay the restart after the throw-in has been awarded to the opponents [Law 12][Law 15]."
+ },
+ "q34": {
+  "question": "Quand le ballon est-il en jeu sur un coup de pied de but ?",
+  "ref": "Dès qu'il est botté et bouge clairement (il n'a pas besoin de sortir de la surface).",
+  "loi": "16",
+  "sans": "Le ballon est en jeu sur un coup de pied de but lorsqu'il est botté et qu'il sort clairement de la surface de réparation. Les adversaires doivent se trouver à l'extérieur de la surface de réparation lorsque le ballon est en jeu. [Loi 16]",
+  "sans_v": "faux",
+  "avec": "Lors d'un coup de pied de but, le ballon est en jeu dès qu'il est botté et a clairement bougé [Loi 16]. Les adversaires doivent se trouver en dehors de la surface de réparation jusqu'à ce que le ballon soit en jeu [Loi 16].",
+  "avec_v": "correct",
+  "court_fr": "Coup de pied de but",
+  "court_en": "Goal kick",
+  "question_en": "When is the ball in play at a goal kick?",
+  "ref_en": "As soon as it is kicked and clearly moves (it does not need to leave the penalty area).",
+  "sans_en": "The ball is in play at a goal kick when it is kicked and clearly leaves the penalty area. Opponents must be outside the penalty area when the ball is in play. [Law 16]",
+  "avec_en": "At a goal kick, the ball is in play as soon as it is kicked and has clearly moved [Law 16]. Opponents must remain outside the penalty area until the ball is in play [Law 16]."
+ }
+}
