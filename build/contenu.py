@@ -72,10 +72,10 @@ NULS = [
      "charge"),
     (("Phases arrêtées : aucune différence entre femmes et hommes", "Set pieces: no difference between women and men"),
      ("39,8 % du xG des deux côtés, écart 0,0 point [−1,3 ; +1,3] sur 2 861 matchs. L'idée reçue ne tient pas.",
-      "39.8% of xG on both sides, a 0.0-point gap [−1.3; +1.3] over 2,861 matches. The common belief does not hold."), "etudes"),
+      "39.8% of xG on both sides, a 0.0-point gap [−1.3; +1.3] over 2,861 matches. The common belief does not hold."), "phases-arretees"),
     (("Penalties : même réussite chez les femmes et les hommes", "Penalties: same conversion for women and men"),
      ("76,2 % contre 75,1 %, écart non significatif. Il faudrait environ 1 070 penalties par groupe pour détecter 5 points.",
-      "76.2% against 75.1%, a non-significant gap. About 1,070 penalties per group would be needed to detect 5 points."), "etudes"),
+      "76.2% against 75.1%, a non-significant gap. About 1,070 penalties per group would be needed to detect 5 points."), "penalties"),
 ]
 
 PREUVES = [
@@ -88,15 +88,15 @@ PREUVES = [
     ("520", ("joueurs croisés MPG × FBref", "players matched MPG × FBref"), "mpg", GH + "/mpg-optimizer", "README"),
     ("24,8 %", ("chances de titre de l'Espagne selon le modèle", "Spain's title chance per the model"), "wc", GH + "/world-cup-predictor", "README"),
     ("39,8 %", ("Part du xG hors penalty née des phases arrêtées jouées dans la moitié adverse, femmes et hommes", "Share of non-penalty xG from set pieces taken in the opponent's half, women and men"),
-     "etudes", "https://github.com/Julie-Landrevie/etudes-football-feminin/blob/main/resultats/etude2_differences.csv", "etude2_differences.csv"),
+     "phases-arretees", "https://github.com/Julie-Landrevie/etudes-football-feminin/blob/main/resultats/etude2_differences.csv", "etude2_differences.csv"),
     ("46,9 %", ("Même mesure à la Coupe du monde féminine 2023, la plus élevée des compétitions féminines", "Same measure at the 2023 Women's World Cup, the highest of the women's competitions"),
-     "etudes", "https://github.com/Julie-Landrevie/etudes-football-feminin/blob/main/resultats/etude2_par_competition.csv", "etude2_par_competition.csv"),
+     "phases-arretees", "https://github.com/Julie-Landrevie/etudes-football-feminin/blob/main/resultats/etude2_par_competition.csv", "etude2_par_competition.csv"),
     ("60,9 %", ("Réussite des penalties féminins en séance de tirs au but (87), contre 76,2 % en match", "Women's penalty conversion in shootouts (87), against 76.2% in matches"),
-     "etudes", "https://github.com/Julie-Landrevie/etudes-football-feminin/blob/main/resultats/etude3_reussite.csv", "etude3_reussite.csv"),
+     "penalties", "https://github.com/Julie-Landrevie/etudes-football-feminin/blob/main/resultats/etude3_reussite.csv", "etude3_reussite.csv"),
     ("22 / 24", ("Statistiques par 90 min fiables sur une saison de WSL (fiabilité ≥ 0,7)", "Per-90 statistics reliable over a WSL season (reliability ≥ 0.7)"),
-     "etudes", "https://github.com/Julie-Landrevie/etudes-football-feminin/blob/main/resultats/etude1_fiabilite.csv", "etude1_fiabilite.csv"),
+     "fiabilite", "https://github.com/Julie-Landrevie/etudes-football-feminin/blob/main/resultats/etude1_fiabilite.csv", "etude1_fiabilite.csv"),
     ("2 026 min", ("Minutes pour que les contres deviennent une statistique fiable en WSL", "Minutes for blocks to become a reliable statistic in the WSL"),
-     "etudes", "https://github.com/Julie-Landrevie/etudes-football-feminin/blob/main/resultats/etude1_fiabilite.csv", "etude1_fiabilite.csv"),
+     "fiabilite", "https://github.com/Julie-Landrevie/etudes-football-feminin/blob/main/resultats/etude1_fiabilite.csv", "etude1_fiabilite.csv"),
 ]
 
 GLOSSAIRE = [
