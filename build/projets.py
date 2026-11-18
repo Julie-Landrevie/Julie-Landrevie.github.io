@@ -113,9 +113,50 @@ PROJETS = [
                  "SoccerMon does not separate matches from training: match days are estimated (137 days where at least 8 players exceed 7 km). The thresholds are SkillCorner's; the computations on SoccerMon are mine. Personal, non-commercial project."),
         liens=[("Code et résultats ↗", "Code and results ↗", GH + "/vestiaire-metrics")],
     ),
+    # ------------------------------------------------------------------ études courtes
+    dict(
+        id="etudes", portes=["performance", "data-ia"], ordre={"performance": 3, "data-ia": 5, "tout": 3},
+        annee="2026", stack=["Python", "pandas", "Bootstrap", "pytest", "StatsBomb Open Data"],
+        titre=("Trois études courtes en football féminin",
+               "Three short studies in women's football"),
+        question=("Une question, des données ouvertes, une réponse chiffrée avec son intervalle de confiance, et le résultat publié même s'il est nul.",
+                  "One question, open data, a numerical answer with its confidence interval, and the result published even when it is null."),
+        chiffres=[
+            ("0,0", ("point d'écart entre femmes et hommes dans la part du xG née des phases arrêtées (39,8 % des deux côtés, IC 95 % −1,3 à +1,3)",
+                     "point gap between women and men in the share of xG from set pieces (39.8% on both sides, 95% CI −1.3 to +1.3)")),
+            (("1 070", "1,070"), ("penalties par groupe qu'il faudrait pour détecter un écart de réussite de 5 points : avec 362 et 410, le résultat nul était attendu",
+                                  "penalties per group needed to detect a 5-point gap in conversion: with 362 and 410, a null result was expected")),
+            (("2 026 min", "2,026 min"), ("pour que les contres d'une joueuse deviennent une statistique fiable, plus qu'une saison de titulaire en WSL",
+                                          "for a player's blocks to become a reliable statistic, more than a full season as a WSL starter")),
+        ],
+        sections=[
+            S("Phases arrêtées : autant chez les femmes que chez les hommes", "Set pieces: as much for women as for men",
+              ["Sur 1 310 matchs de compétitions féminines (WSL, Liga F, Frauen-Bundesliga, Serie A Women, NWSL, Euros, Coupes du monde) et 1 551 matchs des grands championnats masculins 2015/16, j'ai mesuré la part du xG hors penalty née d'un corner, d'un coup franc ou d'une touche joués dans la moitié adverse. Définition posée avant de regarder les résultats, intervalles de confiance par bootstrap sur les matchs.",
+               "Résultat : 39,8 % chez les femmes comme chez les hommes. La définition pèse bien plus que le genre (de 17 % à 50 % selon la définition retenue), et les tournois féminins dépendent davantage des phases arrêtées que les championnats (+4,2 points ; Coupe du monde 2023 : 46,9 %)."],
+              ["Across 1,310 matches of women's competitions (WSL, Liga F, Frauen-Bundesliga, Serie A Women, NWSL, Euros, World Cups) and 1,551 matches of the big men's leagues in 2015/16, I measured the share of non-penalty xG that came from a corner, free kick or throw-in taken in the opponent's half. The definition was set before looking at the results; confidence intervals come from a match-level bootstrap.",
+               "Result: 39.8% for women and for men alike. The definition matters far more than gender (from 17% to 50% depending on the definition), and women's tournaments rely more on set pieces than leagues do (+4.2 points; 2023 World Cup: 46.9%)."],
+              [("etudes_phases_arretees.webp", "Part du xG issue des phases arrêtées, par compétition féminine.", "Share of xG from set pieces, by women's competition (chart in French)."),
+               ("etudes_definitions.webp", "La même mesure selon quatre définitions, femmes et hommes.", "The same measure under four definitions, women and men (chart in French).")]),
+            S("Penalties : où tirent les joueuses", "Penalties: where women shoot",
+              ["362 penalties féminins en match, 87 en séances de tirs au but et 410 penalties masculins. Les joueuses tirent bas (79 %) et rarement au centre (6 %, contre 12 % chez les hommes) ; la zone la plus visée est en bas, à droite de la gardienne (45 %).",
+               "Réussite en match : 76,2 % contre 75,1 % chez les hommes, écart non significatif, et c'était attendu au vu de la taille des échantillons (calcul de puissance publié avec le résultat). En séance de tirs au but, la réussite tombe à 60,9 %, soit 15 points de moins qu'en match."],
+              ["362 women's penalties in open play, 87 in shootouts, and 410 men's penalties. Women shoot low (79%) and rarely down the middle (6%, against 12% for men); the most targeted zone is low, to the goalkeeper's right (45%).",
+               "Conversion in matches: 76.2% against 75.1% for men, a non-significant gap, as expected given the sample sizes (a power calculation is published with the result). In shootouts, conversion drops to 60.9%, 15 points lower than in matches."],
+              [("etudes_penalties.webp", "Part des tirs et réussite par zone, vue par la gardienne.", "Share of shots and conversion by zone, from the goalkeeper's view (chart in French).")]),
+            S("Combien de minutes avant qu'une statistique soit fiable ?", "How many minutes before a statistic is reliable?",
+              ["Pour 24 statistiques par 90 minutes et 487 joueuses-saisons de WSL, j'ai coupé la saison de chaque joueuse en deux moitiés au hasard (200 tirages) et mesuré si la statistique se reproduit d'une moitié à l'autre, puis projeté le résultat avec la formule de Spearman-Brown.",
+               "Sur une saison, 22 statistiques sur 24 sont fiables. Passes, conduites, pressions et tirs le deviennent en 2 à 4 matchs ; tacles et récupérations demandent 900 à 1 000 minutes, les contres 2 026. À minutes égales, les statistiques des joueuses sont aussi fiables que celles des joueurs de Premier League : l'écart vient de la longueur des saisons (22 matchs contre 38)."],
+              ["For 24 per-90 statistics and 487 WSL player-seasons, I split each player's season into two random halves (200 draws), measured whether the statistic repeats from one half to the other, then projected the result with the Spearman-Brown formula.",
+               "Over a season, 22 of 24 statistics are reliable. Passes, carries, pressures and shots get there in 2 to 4 matches; tackles and recoveries need 900 to 1,000 minutes, blocks 2,026. At equal minutes, women's statistics are as reliable as Premier League men's: the gap comes from season length (22 matches against 38)."],
+              [("etudes_fiabilite.webp", "Minutes nécessaires pour une fiabilité de 0,7 : WSL et Premier League.", "Minutes needed to reach 0.7 reliability: WSL and Premier League (chart in French).")]),
+        ],
+        limites=("La comparaison masculine porte sur 2015/16, les compétitions féminines sur 2018-2025. Les échantillons de penalties ne permettent pas de trancher les petits écarts. « Fiable » veut dire reproductible : une partie de cette stabilité vient du style de l'équipe, pas seulement de la joueuse.",
+                 "The men's comparison covers 2015/16, the women's competitions 2018–2025. The penalty samples cannot settle small gaps. \"Reliable\" means repeatable: part of that stability comes from the team's style, not only the player."),
+        liens=[("Code ↗", "Code ↗", GH + "/etudes-football-feminin")],
+    ),
     # ------------------------------------------------------------------ Lois du Jeu
     dict(
-        id="lois", portes=["data-ia"], ordre={"data-ia": 1, "tout": 3},
+        id="lois", portes=["data-ia"], ordre={"data-ia": 1, "tout": 4},
         annee="2026", stack=["Python", "pypdf", "BM25", "API Mistral", "unittest"],
         titre=("Assistant IA sur les Lois du Jeu : RAG et évaluation",
                "AI assistant on the Laws of the Game: RAG and evaluation"),
@@ -160,7 +201,7 @@ PROJETS = [
     ),
     # ------------------------------------------------------------------ vidéo football
     dict(
-        id="video", portes=["performance"], ordre={"performance": 3, "tout": 4},
+        id="video", portes=["performance"], ordre={"performance": 4, "tout": 5},
         annee="2025–2026", stack=["Once Sport (certifiée)", "Dartfish (certifiée)", "Panneau de codage"],
         stack_en=["Once Sport (certified)", "Dartfish (certified)", "Coding panel"],
         titre=("Analyse vidéo football : Once Sport et Dartfish",
@@ -202,7 +243,7 @@ PROJETS = [
     ),
     # ------------------------------------------------------------------ tennis de table
     dict(
-        id="tennis", portes=["performance"], ordre={"performance": 4, "tout": 5},
+        id="tennis", portes=["performance"], ordre={"performance": 5, "tout": 6},
         annee="2025", stack=["Dartfish", "Panneau de codage", "Mesure d'angles", "Excel"],
         stack_en=["Dartfish", "Coding panel", "Angle measurement", "Excel"],
         titre=("Rapport de match : finale de tennis de table codée point par point",
@@ -241,7 +282,7 @@ PROJETS = [
     ),
     # ------------------------------------------------------------------ tracking
     dict(
-        id="tracking", portes=["performance", "data-ia"], ordre={"performance": 5, "data-ia": 5, "tout": 6},
+        id="tracking", portes=["performance", "data-ia"], ordre={"performance": 6, "data-ia": 6, "tout": 7},
         annee="2026", stack=["Python", "pandas", "NumPy", "Plotly", "Streamlit"],
         titre=("Intensité physique et données de tracking", "Physical intensity from tracking data"),
         question=("Une vitesse mesurée est-elle physiquement possible avant d'être interprétée ?",
@@ -276,7 +317,7 @@ PROJETS = [
     ),
     # ------------------------------------------------------------------ ScoutPro
     dict(
-        id="scoutpro", portes=["performance"], ordre={"performance": 6, "tout": 7},
+        id="scoutpro", portes=["performance"], ordre={"performance": 7, "tout": 8},
         annee="2026", stack=["Python", "pandas", "statsbombpy", "Streamlit", "Plotly"],
         titre=("ScoutPro : profils de joueuses et joueurs pour le recrutement", "ScoutPro: player profiles for recruitment"),
         question=("Comment comparer deux profils sans comparer un latéral à un attaquant ?",
@@ -304,7 +345,7 @@ PROJETS = [
     ),
     # ------------------------------------------------------------------ xG et passes
     dict(
-        id="xg", portes=["performance", "data-ia"], ordre={"performance": 7, "data-ia": 7, "tout": 8},
+        id="xg", portes=["performance", "data-ia"], ordre={"performance": 8, "data-ia": 8, "tout": 9},
         annee="2026", stack=["Python", "pandas", "mplsoccer", "networkx", "Streamlit"],
         titre=("xG, profils de tir et réseaux de passes", "xG, shooting profiles and passing networks"),
         question=("Qui crée de vraies occasions, et par où passe le jeu ?",
@@ -337,7 +378,7 @@ PROJETS = [
     ),
     # ------------------------------------------------------------------ MPG
     dict(
-        id="mpg", portes=["data-ia"], ordre={"data-ia": 3, "tout": 9},
+        id="mpg", portes=["data-ia"], ordre={"data-ia": 3, "tout": 10},
         annee="2026", stack=["Python", "API", "PuLP", "Streamlit", "unittest"],
         titre=("MPG Optimizer : collecte automatisée et optimisation", "MPG Optimizer: automated collection and optimisation"),
         question=("Peut-on composer la meilleure équipe sous contrainte de budget à partir de données croisées ?",
@@ -363,7 +404,7 @@ PROJETS = [
     ),
     # ------------------------------------------------------------------ World Cup
     dict(
-        id="wc", portes=["data-ia"], ordre={"data-ia": 6, "tout": 10},
+        id="wc", portes=["data-ia"], ordre={"data-ia": 7, "tout": 11},
         annee="2026", stack=["Python", "NumPy", "pandas", "SciPy", "Streamlit"],
         titre=("World Cup 2026 Predictor : modèle de Poisson", "World Cup 2026 Predictor: Poisson model"),
         question=("Un modèle simple fait-il mieux que les cotes des bookmakers ?",

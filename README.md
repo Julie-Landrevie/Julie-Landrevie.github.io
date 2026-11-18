@@ -13,13 +13,13 @@ Liens à donner dans une candidature :
 
 ## Modifier le site
 
-Le texte est dans `build/contenu.py` (français et anglais côte à côte), la mise en page dans `build/gabarit.html`.
+Les études détaillées sont dans `build/projets.py` (français et anglais côte à côte) ; le reste du contenu (portes, méthode, résultats nuls, preuves, glossaire, parcours) dans `build/contenu.py` ; la mise en page dans `build/gabarit.html`.
 Après une modification :
 
 ```bash
 python3 build/build.py   # régénère index.html ; les compteurs sont recalculés
 ```
 
-Ajouter un projet = ajouter une entrée dans `PROJETS` (question, chiffres, texte, visuels, limites, liens) et, si besoin, une ligne dans `PREUVES`.
+Ajouter un projet = ajouter une entrée dans `PROJETS` de `build/projets.py` (question, chiffres, sections, visuels, limites, liens) et, si besoin, des lignes dans `NULS` et `PREUVES` de `build/contenu.py`.
 
 Charte : fond #f6f1e7, DM Serif Display + Lato, vert d'eau #0d8f84, une seule mise en avant rouille #cc4a12.

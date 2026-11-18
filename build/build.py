@@ -92,11 +92,11 @@ def carte_projet(p):
   </div>
   <div class="figs">{chiffres}</div>
   <details>
-    <summary>{t("Lire l\'étude", "Read the study")}</summary>
+    <summary>{t("Lire l’étude", "Read the study")}</summary>
     <div class="etude">
       {corps}
       {demo}
-      <div class="limites"><strong>{t("Ce que l\'étude ne permet pas de conclure", "What this study cannot conclude")}</strong>{tt(p["limites"], "p")}</div>
+      <div class="limites"><strong>{t("Ce que l’étude ne permet pas de conclure", "What this study cannot conclude")}</strong>{tt(p["limites"], "p")}</div>
     </div>
   </details>
   <div class="pied-projet"><div class="chips">{chips}</div><div class="liens">{liens}</div></div>
