@@ -51,7 +51,7 @@ METHODE = [
 
 from projets import PROJETS, AUTRES  # noqa: E402
 
-TESTS = {"mpg-optimizer": 28, "etudes-football-feminin": 19, "vestiaire-metrics": 21, "pass-network": 18, "lois-du-jeu-ia": 17,
+TESTS = {"mpg-optimizer": 33, "etudes-football-feminin": 19, "vestiaire-metrics": 21, "pass-network": 18, "lois-du-jeu-ia": 17,
          "womens-football-opportunity": 12}
 
 NULS = [
