@@ -39,9 +39,9 @@ n_projets = len(PROJETS) + len(AUTRES)
 n_tests = sum(TESTS.values())
 COMPTEURS = [
     (str(n_projets), ("études détaillées, données et code ouverts", "detailed studies, open data and code")),
-    (f"{n_tests // 10 * 10}+", ("tests unitaires sur quatre projets", "unit tests across four projects")),
+    (f"{n_tests // 10 * 10}+", (f"tests unitaires sur {len(TESTS)} projets", f"unit tests across {len(TESTS)} projects")),
     ("10 075", ("fichiers GPS de joueuses contrôlés", "GPS files from female players checked")),
-    ("4", ("résultats nuls ou contre-intuitifs publiés", "null or counter-intuitive results published")),
+    (str(len(NULS)), ("résultats nuls ou contre-intuitifs publiés", "null or counter-intuitive results published")),
 ]
 
 

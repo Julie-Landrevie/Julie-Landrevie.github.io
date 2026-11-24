@@ -113,9 +113,51 @@ PROJETS = [
                  "SoccerMon does not separate matches from training: match days are estimated (137 days where at least 8 players exceed 7 km). The thresholds are SkillCorner's; the computations on SoccerMon are mine. Personal, non-commercial project."),
         liens=[("Code et résultats ↗", "Code and results ↗", GH + "/vestiaire-metrics")],
     ),
+    # ------------------------------------------------------------------ opportunités (StatsBomb, 4 championnats)
+    dict(
+        id="opportunites", portes=["performance", "data-ia"], ordre={"performance": 4, "data-ia": 5, "tout": 5},
+        annee="2026", stack=["Python", "pandas", "bootstrap", "Streamlit", "Altair", "pytest", "StatsBomb Open Data"],
+        titre=("Comparer les joueuses à opportunités égales", "Comparing players on equal opportunities"),
+        question=("Le classement d'une joueuse change-t-il quand on tient compte de son temps de jeu, de la possession de son équipe et de ses adversaires ?",
+                  "Does a player's ranking change once playing time, team possession and opponents are taken into account?"),
+        chiffres=[
+            (("×1,33", "×1.33"), ("pressions par minute d'une remplaçante, comparée à elle-même titulaire sur la même fenêtre de match (200 joueuses)",
+                                  "pressures per minute for a substitute, compared with herself as a starter over the same match window (200 players)")),
+            (("34 %", "34%"), ("des joueuses changent nettement de rang en pressions quand on passe du par 90 au par possession adverse",
+                               "of players change rank markedly in pressures when moving from per 90 to per opponent possession")),
+            ("634", ("matchs de quatre championnats féminins 2023/24 : WSL, Frauen-Bundesliga, Liga F, Serie A",
+                     "matches from four 2023/24 women's leagues: WSL, Frauen-Bundesliga, Liga F, Serie A")),
+        ],
+        sections=[
+            S("Mesurer les opportunités", "Measuring opportunities",
+              ["Pour chaque joueuse et chaque match : temps de jeu reconstruit à partir des événements (les horaires des feuilles de match sont faux dans plusieurs matchs), possession de son équipe et de l'adversaire pendant sa présence, ballons reçus, adversaire. Cinq indicateurs (xG hors penalties, xA, actions progressives, pressions, ballons gagnés), chacun en quatre versions : total, par 90 minutes, par possession (principe des indicateurs TIP / OTIP de SkillCorner) et ajusté au niveau des adversaires.",
+               "Un test a révélé une erreur de ma première version : les événements administratifs (fin de mi-temps, remplacement) prolongeaient les possessions de 7,6 minutes par match. Corrigé avant toute analyse."],
+              ["For each player and each match: playing time rebuilt from events (the line-up timings are wrong in several matches), her team's and the opponent's possession while she is on the pitch, balls received, opponent. Five indicators (non-penalty xG, xA, progressive actions, pressures, ball wins), each in four versions: total, per 90 minutes, per possession (the idea behind SkillCorner's TIP / OTIP metrics) and adjusted for opponent strength.",
+               "A test revealed an error in my first version: administrative events (half-time, substitutions) stretched possessions by 7.6 minutes per match. Fixed before any analysis."]),
+            S("La possession reclasse la défense, pas l'attaque", "Possession reshuffles defence, not attack",
+              ["Du par 90 au par possession adverse, 34 % des joueuses gagnent ou perdent au moins 20 points de percentile dans leur poste en pressions, 26 % en ballons gagnés, contre 3 à 9 % pour les indicateurs offensifs. Le déplacement suit la domination de l'équipe (corrélation +0,88 pour les pressions), dans les quatre championnats.",
+               "L'ajustement au niveau des adversaires, lui, ne change presque rien : au plus 2 joueuses bougent de 20 points, même en Serie A où le calendrier est déséquilibré (poules en fin de saison)."],
+              ["From per 90 to per opponent possession, 34% of players gain or lose at least 20 percentile points within their position in pressures, 26% in ball wins, against 3 to 9% for attacking indicators. The shift follows team dominance (correlation +0.88 for pressures), in all four leagues.",
+               "Adjusting for opponent strength changes almost nothing: at most 2 players move by 20 points, even in Serie A with its unbalanced schedule (end-of-season pools)."],
+              [("etudes_opportunites_possession.webp", "Part des joueuses qui changent d'au moins 20 points de percentile, du par 90 au par possession.", "Share of players moving by at least 20 percentile points, from per 90 to per possession (chart in French).")]),
+            S("Une remplaçante n'est pas une titulaire", "A substitute is not a starter",
+              ["Chaque joueuse est comparée à elle-même, sur la même fenêtre de match (de la 65e minute à la fin) : ses entrées en jeu contre ses matchs complets. Sur 200 joueuses, elle presse 1,33 fois plus par minute en entrant (intervalle de confiance à 95 % : 1,25 à 1,42) et fait 1,25 fois plus d'actions progressives. L'écart de pressing est plus élevé dans les quatre championnats, net dans trois.",
+               "Conséquence : le par 90 d'une remplaçante surestime ce qu'elle ferait sur un match entier. Pour comparer à opportunités égales, il faut comparer des minutes comparables."],
+              ["Each player is compared with herself over the same match window (from the 65th minute to the end): her substitute appearances against her full matches. Across 200 players, she presses 1.33 times more per minute when coming on (95% confidence interval: 1.25 to 1.42) and makes 1.25 times more progressive actions. The pressing gap is higher in all four leagues, clear in three.",
+               "Consequence: a substitute's per-90 figure overstates what she would do over a full match. Comparing on equal opportunities means comparing comparable minutes."],
+              [("etudes_opportunites_entree.webp", "Entrées en jeu contre matchs complets, même joueuse, même fenêtre de match.", "Substitute appearances against full matches, same player, same match window (chart in French).")]),
+            S("L'application", "The app",
+              ["Choisir un championnat (ou les quatre), un poste, un indicateur et deux versions : nuage « percentile avant / après », joueuses qui gagnent ou perdent le plus de places, fiche joueuse et test « même fenêtre » par championnat. 12 tests unitaires, résultats reproductibles (bootstrap à graine fixe)."],
+              ["Pick a league (or all four), a position, an indicator and two versions: a before / after percentile scatter, the players who gain or lose the most places, a player card and the same-window test by league. 12 unit tests, reproducible results (fixed-seed bootstrap)."]),
+        ],
+        limites=("Données d'événements, pas de tracking : les courses sans ballon et l'intensité physique ne sont pas mesurées. Une saison par championnat, et 26 à 101 joueuses par championnat pour le test « même fenêtre ». L'effet des entrées en jeu est mesuré, pas expliqué (fraîcheur, consignes, état du score).",
+                 "Event data, not tracking: off-ball runs and physical intensity are not measured. One season per league, and 26 to 101 players per league for the same-window test. The substitution effect is measured, not explained (freshness, instructions, game state)."),
+        liens=[("Application ↗", "App ↗", "https://womens-football-opportunity.streamlit.app"),
+               ("Code ↗", "Code ↗", GH + "/womens-football-opportunity")],
+    ),
     # ------------------------------------------------------------------ étude courte : phases arrêtées
     dict(
-        id="phases-arretees", portes=["performance"], ordre={"performance": 4, "tout": 5},
+        id="phases-arretees", portes=["performance"], ordre={"performance": 5, "tout": 6},
         annee="2026", stack=["Python", "pandas", "Bootstrap", "pytest", "StatsBomb Open Data"],
         titre=("Phases arrêtées : autant chez les femmes que chez les hommes",
                "Set pieces: as much for women as for men"),
@@ -149,7 +191,7 @@ PROJETS = [
     ),
     # ------------------------------------------------------------------ étude courte : penalties
     dict(
-        id="penalties", portes=["performance"], ordre={"performance": 5, "tout": 6},
+        id="penalties", portes=["performance"], ordre={"performance": 6, "tout": 7},
         annee="2026", stack=["Python", "pandas", "Intervalles de Wilson", "pytest", "StatsBomb Open Data"],
         stack_en=["Python", "pandas", "Wilson intervals", "pytest", "StatsBomb Open Data"],
         titre=("Penalties : où tirent les joueuses", "Penalties: where women shoot"),
@@ -182,7 +224,7 @@ PROJETS = [
     ),
     # ------------------------------------------------------------------ étude courte : fiabilité des statistiques
     dict(
-        id="fiabilite", portes=["performance", "data-ia"], ordre={"performance": 6, "data-ia": 5, "tout": 7},
+        id="fiabilite", portes=["performance", "data-ia"], ordre={"performance": 7, "data-ia": 6, "tout": 8},
         annee="2026", stack=["Python", "pandas", "Spearman-Brown", "pytest", "StatsBomb Open Data"],
         titre=("Combien de minutes avant qu'une statistique soit fiable ?",
                "How many minutes before a statistic is reliable?"),
@@ -302,7 +344,7 @@ PROJETS = [
     ),
     # ------------------------------------------------------------------ tennis de table
     dict(
-        id="tennis", portes=["performance"], ordre={"performance": 7, "tout": 8},
+        id="tennis", portes=["performance"], ordre={"performance": 8, "tout": 9},
         annee="2025", stack=["Dartfish", "Panneau de codage", "Mesure d'angles", "Excel"],
         stack_en=["Dartfish", "Coding panel", "Angle measurement", "Excel"],
         titre=("Rapport de match : finale de tennis de table codée point par point",
@@ -341,7 +383,7 @@ PROJETS = [
     ),
     # ------------------------------------------------------------------ tracking
     dict(
-        id="tracking", portes=["performance", "data-ia"], ordre={"performance": 8, "data-ia": 6, "tout": 9},
+        id="tracking", portes=["performance", "data-ia"], ordre={"performance": 9, "data-ia": 7, "tout": 10},
         annee="2026", stack=["Python", "pandas", "NumPy", "Plotly", "Streamlit"],
         titre=("Intensité physique et données de tracking", "Physical intensity from tracking data"),
         question=("Une vitesse mesurée est-elle physiquement possible avant d'être interprétée ?",
@@ -376,7 +418,7 @@ PROJETS = [
     ),
     # ------------------------------------------------------------------ ScoutPro
     dict(
-        id="scoutpro", portes=["performance"], ordre={"performance": 9, "tout": 10},
+        id="scoutpro", portes=["performance"], ordre={"performance": 10, "tout": 11},
         annee="2026", stack=["Python", "pandas", "statsbombpy", "Streamlit", "Plotly"],
         titre=("ScoutPro : profils de joueuses et joueurs pour le recrutement", "ScoutPro: player profiles for recruitment"),
         question=("Comment comparer deux profils sans comparer un latéral à un attaquant ?",
@@ -404,7 +446,7 @@ PROJETS = [
     ),
     # ------------------------------------------------------------------ xG et passes
     dict(
-        id="xg", portes=["performance", "data-ia"], ordre={"performance": 10, "data-ia": 8, "tout": 11},
+        id="xg", portes=["performance", "data-ia"], ordre={"performance": 11, "data-ia": 9, "tout": 12},
         annee="2026", stack=["Python", "pandas", "mplsoccer", "networkx", "Streamlit"],
         titre=("xG, profils de tir et réseaux de passes", "xG, shooting profiles and passing networks"),
         question=("Qui crée de vraies occasions, et par où passe le jeu ?",
@@ -437,7 +479,7 @@ PROJETS = [
     ),
     # ------------------------------------------------------------------ MPG
     dict(
-        id="mpg", portes=["data-ia"], ordre={"data-ia": 3, "tout": 12},
+        id="mpg", portes=["data-ia"], ordre={"data-ia": 3, "tout": 13},
         annee="2026", stack=["Python", "API", "PuLP", "Streamlit", "unittest"],
         titre=("MPG Optimizer : collecte automatisée et optimisation", "MPG Optimizer: automated collection and optimisation"),
         question=("Peut-on composer la meilleure équipe sous contrainte de budget à partir de données croisées ?",
@@ -463,7 +505,7 @@ PROJETS = [
     ),
     # ------------------------------------------------------------------ World Cup
     dict(
-        id="wc", portes=["data-ia"], ordre={"data-ia": 7, "tout": 13},
+        id="wc", portes=["data-ia"], ordre={"data-ia": 8, "tout": 14},
         annee="2026", stack=["Python", "NumPy", "pandas", "SciPy", "Streamlit"],
         titre=("World Cup 2026 Predictor : modèle de Poisson", "World Cup 2026 Predictor: Poisson model"),
         question=("Un modèle simple fait-il mieux que les cotes des bookmakers ?",

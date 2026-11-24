@@ -51,7 +51,8 @@ METHODE = [
 
 from projets import PROJETS, AUTRES  # noqa: E402
 
-TESTS = {"mpg-optimizer": 28, "etudes-football-feminin": 19, "vestiaire-metrics": 21, "pass-network": 18, "lois-du-jeu-ia": 17}
+TESTS = {"mpg-optimizer": 28, "etudes-football-feminin": 19, "vestiaire-metrics": 21, "pass-network": 18, "lois-du-jeu-ia": 17,
+         "womens-football-opportunity": 12}
 
 NULS = [
     (("Le wellness n'anticipe pas les blessures déclarées", "Wellness does not anticipate reported injuries"),
@@ -76,6 +77,9 @@ NULS = [
     (("Penalties : même réussite chez les femmes et les hommes", "Penalties: same conversion for women and men"),
      ("76,2 % contre 75,1 %, écart non significatif. Il faudrait environ 1 070 penalties par groupe pour détecter 5 points.",
       "76.2% against 75.1%, a non-significant gap. About 1,070 penalties per group would be needed to detect 5 points."), "penalties"),
+    (("L'ajustement aux adversaires ne change rien", "Adjusting for opponents changes nothing"),
+     ("Au plus 2 joueuses bougent de 20 points de percentile, même en Serie A, au calendrier déséquilibré. Je ne le mets pas en avant.",
+      "At most 2 players move by 20 percentile points, even in Serie A with its unbalanced schedule. I do not promote it."), "opportunites"),
 ]
 
 PREUVES = [
@@ -97,6 +101,10 @@ PREUVES = [
      "fiabilite", "https://github.com/Julie-Landrevie/etudes-football-feminin/blob/main/resultats/etude1_fiabilite.csv", "etude1_fiabilite.csv"),
     ("2 026 min", ("Minutes pour que les contres deviennent une statistique fiable en WSL", "Minutes for blocks to become a reliable statistic in the WSL"),
      "fiabilite", "https://github.com/Julie-Landrevie/etudes-football-feminin/blob/main/resultats/etude1_fiabilite.csv", "etude1_fiabilite.csv"),
+    ("×1,33", ("Pressions par minute d'une remplaçante, comparée à elle-même titulaire sur la même fenêtre de match", "Pressures per minute for a substitute, compared with herself as a starter over the same match window"),
+     "opportunites", GH + "/womens-football-opportunity/blob/main/outputs/comparaison/tables/meme_fenetre.csv", "meme_fenetre.csv"),
+    ("34 %", ("Joueuses qui changent d'au moins 20 points de percentile en pressions, du par 90 au par possession adverse", "Players moving by at least 20 percentile points in pressures, from per 90 to per opponent possession"),
+     "opportunites", GH + "/womens-football-opportunity/blob/main/outputs/comparaison/tables/deplacements_4_ligues.csv", "deplacements_4_ligues.csv"),
 ]
 
 GLOSSAIRE = [
