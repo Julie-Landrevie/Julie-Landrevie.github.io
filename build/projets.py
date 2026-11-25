@@ -429,7 +429,7 @@ PROJETS = [
         titre=("ScoutPro : profils de joueuses et joueurs pour le recrutement", "ScoutPro: player profiles for recruitment"),
         question=("Comment comparer deux profils sans comparer un latéral à un attaquant ?",
                   "How do you compare two profiles without comparing a full-back to a striker?"),
-        chiffres=[("6 343", ("joueuses et joueurs enrichis avec les données StatsBomb", "players enriched with StatsBomb data")),
+        chiffres=[("6 343", ("joueurs enrichis avec les données StatsBomb (compétitions masculines)", "players enriched with StatsBomb data (men’s competitions)")),
                   ("5", ("groupes de postes pour les percentiles : attaque, milieu, sentinelle, défense, gardien",
                          "position groups for percentiles: attack, midfield, holding midfield, defence, goalkeeper")),
                   ("96e", ("percentile de Bonmatí en passes réussies parmi les milieux du Mondial 2023",
