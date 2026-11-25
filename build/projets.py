@@ -14,6 +14,7 @@ PROJETS = [
     # ------------------------------------------------------------------ suivi de charge
     dict(
         id="charge", portes=["performance", "data-ia"], ordre={"performance": 1, "data-ia": 2, "tout": 1},
+        apercu="wf_ratio_et_base.webp",
         annee="2026", stack=["R", "tidyverse", "arrow", "ggplot2", "R Markdown", "GitHub Pages"],
         titre=("Suivi de charge et de forme en football féminin d'élite",
                "Load and wellness monitoring in elite women's football"),
@@ -69,6 +70,7 @@ PROJETS = [
     # ------------------------------------------------------------------ Vestiaire
     dict(
         id="vestiaire", portes=["performance", "data-ia"], ordre={"performance": 2, "data-ia": 4, "tout": 2},
+        apercu="a19_seuils.webp",
         annee="2026", stack=["Python", "pandas", "unittest", "Prototype"],
         titre=("Vestiaire : seuils féminins et outil de suivi pour les staffs",
                "Vestiaire: women's thresholds and a monitoring tool for staffs"),
@@ -116,6 +118,7 @@ PROJETS = [
     # ------------------------------------------------------------------ opportunités (StatsBomb, 4 championnats)
     dict(
         id="opportunites", portes=["performance", "data-ia"], ordre={"performance": 4, "data-ia": 5, "tout": 5},
+        apercu="etudes_opportunites_entree.webp",
         annee="2026", stack=["Python", "pandas", "bootstrap", "Streamlit", "Altair", "pytest", "StatsBomb Open Data"],
         titre=("Comparer les joueuses à opportunités égales", "Comparing players on equal opportunities"),
         question=("Le classement d'une joueuse change-t-il quand on tient compte de son temps de jeu, de la possession de son équipe et de ses adversaires ?",
@@ -145,7 +148,8 @@ PROJETS = [
                "Conséquence : le par 90 d'une remplaçante surestime ce qu'elle ferait sur un match entier. Pour comparer à opportunités égales, il faut comparer des minutes comparables."],
               ["Each player is compared with herself over the same match window (from the 65th minute to the end): her substitute appearances against her full matches. Across 200 players, she presses 1.33 times more per minute when coming on (95% confidence interval: 1.25 to 1.42) and makes 1.25 times more progressive actions. The pressing gap is higher in all four leagues, clear in three.",
                "Consequence: a substitute's per-90 figure overstates what she would do over a full match. Comparing on equal opportunities means comparing comparable minutes."],
-              [("etudes_opportunites_entree.webp", "Entrées en jeu contre matchs complets, même joueuse, même fenêtre de match.", "Substitute appearances against full matches, same player, same match window (chart in French).")]),
+              [("etudes_opportunites_entree.webp", "Entrées en jeu contre matchs complets, même joueuse, même fenêtre de match.", "Substitute appearances against full matches, same player, same match window (chart in French)."),
+               ("etudes_opportunites_ligues.webp", "Le même écart en pressions, championnat par championnat, avec l'intervalle de confiance.", "The same pressing gap, league by league, with the confidence interval (chart in French).")]),
             S("L'application", "The app",
               ["Choisir un championnat (ou les quatre), un poste, un indicateur et deux versions : nuage « percentile avant / après », joueuses qui gagnent ou perdent le plus de places, fiche joueuse et test « même fenêtre » par championnat. 12 tests unitaires, résultats reproductibles (bootstrap à graine fixe)."],
               ["Pick a league (or all four), a position, an indicator and two versions: a before / after percentile scatter, the players who gain or lose the most places, a player card and the same-window test by league. 12 unit tests, reproducible results (fixed-seed bootstrap)."]),
@@ -211,7 +215,8 @@ PROJETS = [
                "Les joueuses tirent bas (79 %) et rarement au centre (6 %, contre 12 % chez les hommes). La zone la plus visée est en bas, à droite de la gardienne (45 %). En séance de tirs au but, la réussite tombe à 60,9 %, soit 15 points de moins qu'en match, avec plus de tirs hors cadre."],
               ["362 women's penalties in open play and 87 in shootouts (Euros, World Cups), compared with 410 men's penalties. Zones are seen from the goalkeeper's side, in six boxes (left, centre, right; low, high).",
                "Women shoot low (79%) and rarely down the middle (6%, against 12% for men). The most targeted zone is low, to the goalkeeper's right (45%). In shootouts, conversion drops to 60.9%, 15 points lower than in matches, with more shots off target."],
-              [("etudes_penalties.webp", "Part des tirs et réussite par zone, vue par la gardienne.", "Share of shots and conversion by zone, from the goalkeeper's view (chart in French).")]),
+              [("etudes_penalties.webp", "Part des tirs et réussite par zone, vue par la gardienne.", "Share of shots and conversion by zone, from the goalkeeper's view (chart in French)."),
+               ("etudes_penalties_reussite.webp", "Réussite en match et en séance de tirs au but, avec l'intervalle de confiance à 95 %.", "Conversion in matches and in shootouts, with the 95% confidence interval (chart in French).")]),
             S("Et ce qu'ils ne disent pas", "And what they do not say",
               ["Réussite en match : 76,2 % chez les femmes, 75,1 % chez les hommes. L'écart n'est pas significatif, et c'était attendu : il faudrait environ 1 070 penalties par groupe pour détecter un écart de 5 points. Le calcul de puissance est publié avec le résultat, pour qu'un résultat nul reste honnête.",
                "De même, viser son côté naturel ou le côté opposé ne change rien de démontrable, et l'avantage des tirs hauts reste incertain sur 77 tirs."],
@@ -249,7 +254,8 @@ PROJETS = [
                "À minutes égales, les statistiques des joueuses sont aussi fiables que celles des joueurs : l'écart observé sur une saison vient de la longueur des saisons. Poste par poste, il reste 14 à 18 statistiques fiables sur 24 à 1 000 minutes."],
               ["Over a season, 22 of 24 statistics are reliable. But not at the same pace: passes, carries, pressures and shots get there in 2 to 4 matches; tackles and recoveries need 900 to 1,000 minutes, interceptions more than 1,400, and blocks 2,026 minutes.",
                "At equal minutes, women's statistics are as reliable as men's: the gap seen over a season comes from season length. Position by position, 14 to 18 of 24 statistics remain reliable at 1,000 minutes."],
-              [("etudes_fiabilite.webp", "Minutes nécessaires pour une fiabilité de 0,7 : WSL et Premier League.", "Minutes needed to reach 0.7 reliability: WSL and Premier League (chart in French).")]),
+              [("etudes_fiabilite.webp", "Minutes nécessaires pour une fiabilité de 0,7 : WSL et Premier League.", "Minutes needed to reach 0.7 reliability: WSL and Premier League (chart in French)."),
+               ("etudes_fiabilite_minutes.webp", "Nombre de statistiques fiables selon les minutes vues, en WSL.", "Number of reliable statistics by minutes watched, WSL (chart in French).")]),
         ],
         limites=("« Fiable » veut dire reproductible : une partie de cette stabilité vient du style de l'équipe, pas seulement de la joueuse. Les postes sont regroupés largement. Comparaison masculine sur une seule saison (2015/16).",
                  "“Reliable” means repeatable: part of that stability comes from the team's style, not only the player. Positions are grouped broadly. Men's comparison on a single season (2015/16)."),
@@ -486,7 +492,7 @@ PROJETS = [
                   "Can we pick the best team under a budget constraint from cross-referenced data?"),
         chiffres=[("520", ("joueurs croisés entre l'API MPG et FBref, contre 27 au départ", "players matched between the MPG API and FBref, vs 27 at first")),
                   ("0,49", ("corrélation entre buts + passes décisives et note MPG", "correlation between goals + assists and MPG rating")),
-                  ("28", ("tests unitaires", "unit tests"))],
+                  ("33", ("tests unitaires", "unit tests"))],
         sections=[
             S("Collecter et croiser", "Collect and match",
               ["Collecte horaire via l'API officielle de Mon Petit Gazon (cotes, notes, forme, statut, poste), croisée avec FBref (buts, passes décisives, minutes, statistiques par 90 minutes).",

@@ -95,6 +95,11 @@ body[data-porte="tout"] .role[data-role="tout"], body[data-porte="performance"] 
 .liste{display:flex; flex-direction:column; gap:18px}
 .projet{background:var(--carte); border:1px solid var(--bord); border-radius:12px; padding:24px 26px; display:flex; flex-direction:column; gap:18px}
 .projet[hidden]{display:none}
+.projet-haut{display:grid; grid-template-columns:minmax(0,1fr) 220px; gap:28px; align-items:start}
+.apercu{padding:0; border:1px solid var(--bord); border-radius:8px; background:var(--bg); cursor:pointer; overflow:hidden; aspect-ratio:1/1; display:block}
+.apercu img{display:block; width:100%; height:100%; object-fit:cover; transition:transform .2s}
+.apercu:hover img{transform:scale(1.03)}
+@media (max-width:700px){.projet-haut{grid-template-columns:1fr}.apercu{display:none}}
 .projet h3{font-size:clamp(25px,3.2vw,32px); margin-top:8px}
 .question{font-size:18px; color:var(--encre2); margin-top:8px; font-style:italic}
 .figs{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0; border-top:1px solid var(--bord); border-bottom:1px solid var(--bord)}

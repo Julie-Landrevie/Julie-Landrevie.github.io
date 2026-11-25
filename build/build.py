@@ -83,12 +83,21 @@ def carte_projet(p):
         corps += "</section>"
     demo = DEMOS.get(p.get("demo"), "")
     liens = "".join(f'<a href="{u}" target="_blank" rel="noopener">{t(esc(a), esc(b))}</a>' for a, b, u in p["liens"])
+    # Aperçu : un visuel de l'étude affiché sur la carte fermée (le premier, ou celui choisi avec "apercu")
+    tous = [v for s in p["sections"] for v in s["visuels"]]
+    choix = next((v for v in tous if v[0] == p.get("apercu")), tous[0] if tous else None)
+    apercu = (f'<button type="button" class="apercu" aria-label="Lire l’étude / Read the study" '
+              f'onclick="var d=this.closest(\'.projet\').querySelector(\'details\');d.open=true;d.scrollIntoView({{behavior:\'smooth\',block:\'start\'}})">'
+              f'<img src="assets/{choix[0]}" alt="{esc(choix[1])}" loading="lazy"></button>') if choix else ""
     return f'''
 <article class="projet" id="{p["id"]}" data-portes="{portes}" {ordre}>
+  <div class="projet-haut">
   <div class="projet-tete">
     <span class="kicker">{p["annee"]}</span>
     <h3>{tt(p["titre"])}</h3>
     <p class="question">{tt(p["question"])}</p>
+  </div>
+  {apercu}
   </div>
   <div class="figs">{chiffres}</div>
   <details>
